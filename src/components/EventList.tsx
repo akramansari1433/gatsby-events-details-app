@@ -17,8 +17,8 @@ export default function EventList() {
    }, []);
 
    return (
-      <div className="px-4 sm:px-6 lg:px-8 mt-5">
-         <h1 className="font-semibold text-4xl text-center">Events List</h1>
+      <div className="mt-3">
+         <h1 className="font-semibold text-3xl text-center">Events List</h1>
          <div className="mt-2 flex flex-col">
             <div className="overflow overflow-x-auto shadow md:rounded-lg">
                <table className="min-w-full">
