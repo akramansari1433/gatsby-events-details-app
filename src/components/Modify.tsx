@@ -71,7 +71,7 @@ export default function Modify() {
          <div className="flex flex-col overflow-auto">
             {!showHeaderForm && (
                <button
-                  className="w-fit mr-5 bg-violet-600 px-2 py-1 text-white"
+                  className="w-fit mr-5 rounded-md bg-violet-600 px-2 py-1 text-white"
                   onClick={() => setShowHeaderForm(true)}
                >
                   Edit
@@ -83,14 +83,14 @@ export default function Modify() {
                      return (
                         <div className="flex flex-row">
                            <input
-                              className="border-2 border-gray-500 mr-5 text-gray-500 p-2"
+                              className="border-2 my-1 rounded-sm border-gray-500 mr-5 text-gray-500 p-2"
                               type="text"
                               value={header.key}
                               onChange={(e) => keySetter(e, i)}
                               placeholder="Key"
                            />
                            <input
-                              className="border-2 border-gray-500 text-gray-500 p-2"
+                              className="border-2 my-1 rounded-sm border-gray-500 text-gray-500 p-2"
                               type="text"
                               value={header.value}
                               onChange={(e) => valueSetter(e, i)}
@@ -101,13 +101,13 @@ export default function Modify() {
                   })}
                   <div className="flex flex-row justify-start mt-5">
                      <button
-                        className="w-fit mr-5 bg-violet-600 px-2 py-1 text-white"
+                        className="w-fit mr-5 bg-violet-600 rounded-md px-2 py-1 text-white"
                         onClick={onSaveHeaders}
                      >
                         Save
                      </button>
                      <button
-                        className="w-fit px-2 py-1 border-2"
+                        className="w-fit px-2 rounded-md py-1 border-2"
                         onClick={onCloseHeaders}
                      >
                         Close
@@ -119,22 +119,38 @@ export default function Modify() {
 
          {/* Style the below table */}
          {showHeaderData && !showHeaderForm && (
-            <table className="table-fixed mt-5">
-               <thead>
-                  <tr>
-                     <th>Key</th>
-                     <th>Value</th>
-                  </tr>
-               </thead>
-               <tbody>
-                  {headers.map((header, i) => (
-                     <tr key={i}>
-                        <td>{header.key}</td>
-                        <td>{header.value}</td>
+            <div className="overflow overflow-x-auto mt-5">
+               <table className="table-fixed">
+                  <thead className="bg-violet-400">
+                     <tr>
+                        <th
+                           scope="col"
+                           className="py-2 px-3 text-left text-sm font-semibold "
+                        >
+                           Key
+                        </th>
+                        <th
+                           scope="col"
+                           className="py-2 px-3 text-left text-sm font-semibold  "
+                        >
+                           Value
+                        </th>
                      </tr>
-                  ))}
-               </tbody>
-            </table>
+                  </thead>
+                  <tbody className="divide-y divide-gray-200 bg-white">
+                     {headers.map((header, i) => (
+                        <tr key={i}>
+                           <td className="whitespace-nowrap py-3 px-3 text-sm font-medium text-gray-900">
+                              {header.key}
+                           </td>
+                           <td className="whitespace-nowrap py-3 px-3 text-sm font-medium text-gray-900">
+                              {header.value}
+                           </td>
+                        </tr>
+                     ))}
+                  </tbody>
+               </table>
+            </div>
          )}
       </div>
    );
