@@ -142,7 +142,7 @@ export default function Modify() {
                <>
                   {headers?.map((header, i) => {
                      return (
-                        <div className="flex flex-row">
+                        <div className="flex flex-row" key={i}>
                            <input
                               className="border-2 my-1 rounded-sm border-gray-500 mr-5 text-gray-500 p-2"
                               type="text"
