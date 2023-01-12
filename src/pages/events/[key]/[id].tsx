@@ -2,8 +2,23 @@ import { HeadFC } from "gatsby";
 import React, { useEffect, useState } from "react";
 import Layout from "../../../components/Layout";
 
+export type Event = {
+   id: number;
+   key: string;
+   request: {
+      url: string;
+      method: string;
+      header: any;
+      body: any;
+   };
+   response: {
+      status: number;
+      response: any;
+   };
+};
+
 export default function EventDetails(props: any) {
-   const [event, setEvent] = useState<any[]>([]);
+   const [event, setEvent] = useState<Event[]>([]);
 
    const getEvents = async () => {
       const res = await fetch(

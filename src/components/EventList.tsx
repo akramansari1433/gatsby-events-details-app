@@ -1,8 +1,14 @@
 import { Link } from "gatsby";
 import React, { useEffect, useState } from "react";
+import { Event } from "../pages/events/[key]/[id]";
+
+type EventType = {
+   key: string;
+   events: Event[];
+};
 
 export default function EventList() {
-   const [eventsList, setEventsList] = useState<any[]>([]);
+   const [eventsList, setEventsList] = useState<EventType[]>([]);
 
    const getEvents = async () => {
       const res = await fetch(
@@ -34,7 +40,7 @@ export default function EventList() {
                            scope="col"
                            className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6"
                         >
-                           api endpoint
+                           api endpoints
                         </th>
                         <th
                            scope="col"
@@ -57,21 +63,21 @@ export default function EventList() {
                               {item.key}
                            </td>
                            <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">
-                              {item.events.map((event: any) => (
+                              {item.events.map((event) => (
                                  <p key={event.id} className="mb-2">
                                     {event.request.url}
                                  </p>
                               ))}
                            </td>
                            <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">
-                              {item.events.map((event: any) => (
+                              {item.events.map((event) => (
                                  <p key={event.id} className="mb-2">
                                     {event.response.status}
                                  </p>
                               ))}
                            </td>
                            <td className=" flex flex-col whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
-                              {item.events.map((event: any) => (
+                              {item.events.map((event) => (
                                  <Link
                                     key={event.id}
                                     to={`/events/${item.key}/${event.id}`}
