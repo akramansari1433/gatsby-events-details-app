@@ -51,23 +51,35 @@ export default function EventList() {
                      </tr>
                   </thead>
                   <tbody className="divide-y divide-gray-200 bg-white">
-                     {eventsList.map((event, i) => (
+                     {eventsList.map((item, i) => (
                         <tr key={i}>
                            <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">
-                              {event.key}
+                              {item.key}
                            </td>
                            <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">
-                              {event.request.url}
+                              {item.events.map((event: any) => (
+                                 <p key={event.id} className="mb-2">
+                                    {event.request.url}
+                                 </p>
+                              ))}
                            </td>
                            <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">
-                              {event.response.status}
+                              {item.events.map((event: any) => (
+                                 <p key={event.id} className="mb-2">
+                                    {event.response.status}
+                                 </p>
+                              ))}
                            </td>
-                           <td className="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
-                              <Link to={`/events/${event.key}`}>
-                                 <button className="text-indigo-600 hover:text-indigo-900">
+                           <td className=" flex flex-col whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
+                              {item.events.map((event: any) => (
+                                 <Link
+                                    key={event.id}
+                                    to={`/events/${item.key}/${event.id}`}
+                                    className="text-indigo-600 hover:text-indigo-900 mb-2"
+                                 >
                                     View Details
-                                 </button>
-                              </Link>
+                                 </Link>
+                              ))}
                            </td>
                         </tr>
                      ))}
