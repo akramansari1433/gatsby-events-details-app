@@ -117,7 +117,6 @@ export default function Modify() {
             )}
          </div>
 
-         {/* Style the below table */}
          {showHeaderData && !showHeaderForm && (
             <div className="overflow overflow-x-auto mt-5">
                <table className="table-fixed">
