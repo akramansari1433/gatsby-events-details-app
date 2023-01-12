@@ -5,16 +5,33 @@ type THeaderType = {
    value: string;
 };
 
+type TRetryConfigType = {
+   retry: number;
+   retryInterval: number;
+   timeout: number;
+};
+
 export default function Modify() {
    const emptyHeaderData: THeaderType = {
       key: "",
       value: "",
    };
-   const [headers, setHeaders] = useState<THeaderType[]>([
-      { key: "", value: "" },
-   ]);
+
+   const emptyRetryConfigData: TRetryConfigType = {
+      retry: 0,
+      retryInterval: 0,
+      timeout: 0,
+   };
+
+   const [headers, setHeaders] = useState<THeaderType[]>([emptyHeaderData]);
+   const [retryConfig, setRetryConfig] =
+      useState<TRetryConfigType>(emptyRetryConfigData);
+
    const [showHeaderForm, setShowHeaderForm] = useState<boolean>(false);
    const [showHeaderData, setShowHeaderData] = useState<boolean>(false);
+
+   const [showRetryConfigForm, setShowRetryConfigForm] =
+      useState<boolean>(false);
 
    const keySetter = (e: ChangeEvent<HTMLInputElement>, i: number) => {
       const tempHeader = [...headers];
@@ -28,6 +45,27 @@ export default function Modify() {
       setHeaders(tempHeader);
    };
 
+   const retryConfigChangeHandler = (
+      e: ChangeEvent<HTMLInputElement>,
+      type: string
+   ) => {
+      const tempRetryConfig = { ...retryConfig };
+      switch (type) {
+         case "retry":
+            tempRetryConfig["retry"] = Number(e.target.value);
+            break;
+         case "interval":
+            tempRetryConfig.retryInterval = Number(e.target.value);
+            break;
+         case "timeout":
+            tempRetryConfig.timeout = Number(e.target.value);
+            break;
+         default:
+            break;
+      }
+      setRetryConfig(tempRetryConfig);
+   };
+
    const getSavedHeaders = () => {
       const rawHeaderData = localStorage.getItem("headersConfig");
       if (rawHeaderData) {
@@ -38,9 +76,20 @@ export default function Modify() {
       }
    };
 
+   const getSavedRetryConfig = () => {
+      const rawRetryConfigData = localStorage.getItem("retryConfig");
+      if (rawRetryConfigData) {
+         const retryConfigData = JSON.parse(rawRetryConfigData);
+         retryConfigData && setRetryConfig(retryConfigData);
+      } else {
+         setRetryConfig(emptyRetryConfigData);
+      }
+   };
+
    const onSaveHeaders = () => {
       // We need to store the config probably in the DB, temporarly storing it in the localStorage
       localStorage.setItem("headersConfig", JSON.stringify(headers));
+      setShowHeaderForm(false);
    };
 
    const onCloseHeaders = () => {
@@ -48,7 +97,19 @@ export default function Modify() {
       setShowHeaderForm(false);
    };
 
+   const onSaveRetryConfig = () => {
+      // We need to store the config probably in the DB, temporarly storing it in the localStorage
+      localStorage.setItem("retryConfig", JSON.stringify(retryConfig));
+      setShowRetryConfigForm(false);
+   };
+
+   const onCloseRetryConfig = () => {
+      getSavedRetryConfig();
+      setShowRetryConfigForm(false);
+   };
+
    useEffect(() => {
+      getSavedRetryConfig();
       getSavedHeaders();
    }, []);
 
@@ -117,6 +178,7 @@ export default function Modify() {
             )}
          </div>
 
+         {/* Show headers if it exists */}
          {showHeaderData && !showHeaderForm && (
             <div className="overflow overflow-x-auto mt-5">
                <table className="table-fixed">
@@ -151,6 +213,120 @@ export default function Modify() {
                </table>
             </div>
          )}
+
+         <div className="w-9/12 h-px bg-slate-200"></div>
+
+         {/* Retry Configuration */}
+         <div className="w-fit">
+            <h1 className="m-1 text-xl">Retry Configuration</h1>
+            {!showRetryConfigForm && (
+               <>
+                  {/* <label htmlFor="edit-retry-config">Edit your retry setting for event failures.</label> */}
+                  <button
+                     className="w-fit mr-5 rounded-md bg-violet-600 px-2 py-1 text-white"
+                     onClick={() => setShowRetryConfigForm(true)}
+                     id="edit-retry-config"
+                  >
+                     Edit
+                  </button>
+               </>
+            )}
+            {showRetryConfigForm && (
+               <>
+                  <div className="w-96">
+                     <div className="flex flex-row items-center justify-between p-2">
+                        <div>
+                           <h2>Number of Retries</h2>
+                        </div>
+                        <div>
+                           <input
+                              onChange={(e) =>
+                                 retryConfigChangeHandler(e, "retry")
+                              }
+                              className="border-2 p-1"
+                              type="number"
+                              value={retryConfig.retry}
+                           />
+                        </div>
+                     </div>
+                     <div className="flex flex-row items-center justify-between p-2">
+                        <div>
+                           <h2>Retry Interval (sec)</h2>
+                        </div>
+                        <div>
+                           <input
+                              onChange={(e) =>
+                                 retryConfigChangeHandler(e, "interval")
+                              }
+                              className="border-2 p-1"
+                              type="number"
+                              value={retryConfig.retryInterval}
+                           />
+                        </div>
+                     </div>
+                     <div className="flex flex-row items-center justify-between p-2">
+                        <div>
+                           <h2>Timeout (sec)</h2>
+                        </div>
+                        <div>
+                           <input
+                              onChange={(e) =>
+                                 retryConfigChangeHandler(e, "timeout")
+                              }
+                              className="border-2 p-1"
+                              type="number"
+                              value={retryConfig.timeout}
+                           />
+                        </div>
+                     </div>
+                  </div>
+                  <div className="flex flex-row justify-start mt-5">
+                     <button
+                        className="w-fit mr-5 bg-violet-600 rounded-md px-2 py-1 text-white"
+                        onClick={onSaveRetryConfig}
+                     >
+                        Save
+                     </button>
+                     <button
+                        className="w-fit px-2 rounded-md py-1 border-2"
+                        onClick={onCloseRetryConfig}
+                     >
+                        Close
+                     </button>
+                  </div>
+               </>
+            )}
+
+            {/* Show retry config data */}
+            {!showRetryConfigForm && (
+               <div className="overflow overflow-x-auto mt-5 w-72">
+                  <div className="flex flex-row justify-between border-x-2 border-t-2 p-2">
+                     <div>
+                        <h2>Number of Retries</h2>
+                     </div>
+                     <div>
+                        <h2>{retryConfig?.retry}</h2>
+                     </div>
+                  </div>
+                  <div className="flex flex-row justify-between border-x-2 border-t-2 p-2">
+                     <div>
+                        <h2>Retry Interval (sec)</h2>
+                     </div>
+                     <div>
+                        <h2>{retryConfig?.retryInterval}</h2>
+                     </div>
+                  </div>
+                  <div className="flex flex-row justify-between border-x-2 border-t-2 border-b-2 p-2">
+                     <div>
+                        <h2>Timeout (sec)</h2>
+                     </div>
+                     <div>
+                        <h2>{retryConfig?.timeout}</h2>
+                     </div>
+                  </div>
+               </div>
+            )}
+         </div>
       </div>
    );
 }
