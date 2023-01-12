@@ -34,19 +34,19 @@ export default function EventList() {
                            scope="col"
                            className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6"
                         >
-                           id
+                           Customer Id
                         </th>
                         <th
                            scope="col"
                            className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6"
                         >
-                           api endpoints
+                           API Endpoints
                         </th>
                         <th
                            scope="col"
                            className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6"
                         >
-                           status
+                           Status
                         </th>
                         <th
                            scope="col"
