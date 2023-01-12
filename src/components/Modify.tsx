@@ -142,7 +142,7 @@ export default function Modify() {
                <>
                   {headers?.map((header, i) => {
                      return (
-                        <div className="flex flex-row" key={i}>
+                        <div className="flex flex-row">
                            <input
                               className="border-2 my-1 rounded-sm border-gray-500 mr-5 text-gray-500 p-2"
                               type="text"
@@ -233,7 +233,7 @@ export default function Modify() {
             )}
             {showRetryConfigForm && (
                <>
-                  <div>
+                  <div className="w-96">
                      <div className="flex flex-row items-center justify-between p-2">
                         <div>
                            <h2>Number of Retries</h2>
@@ -243,7 +243,7 @@ export default function Modify() {
                               onChange={(e) =>
                                  retryConfigChangeHandler(e, "retry")
                               }
-                              className="ml-2 border-2 my-1 rounded-sm border-gray-500 text-gray-500 p-2"
+                              className="border-2 p-1"
                               type="number"
                               value={retryConfig.retry}
                            />
@@ -258,7 +258,7 @@ export default function Modify() {
                               onChange={(e) =>
                                  retryConfigChangeHandler(e, "interval")
                               }
-                              className="ml-2 border-2 my-1 rounded-sm border-gray-500 text-gray-500 p-2"
+                              className="border-2 p-1"
                               type="number"
                               value={retryConfig.retryInterval}
                            />
@@ -273,7 +273,7 @@ export default function Modify() {
                               onChange={(e) =>
                                  retryConfigChangeHandler(e, "timeout")
                               }
-                              className="ml-2 border-2 my-1 rounded-sm border-gray-500 text-gray-500 p-2"
+                              className="border-2 p-1"
                               type="number"
                               value={retryConfig.timeout}
                            />
