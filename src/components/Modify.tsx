@@ -217,7 +217,7 @@ export default function Modify() {
          <div className="w-9/12 h-px bg-slate-200"></div>
 
          {/* Retry Configuration */}
-         <div className="w-fit">
+         <div className="overflow-auto">
             <h1 className="m-1 text-xl">Retry Configuration</h1>
             {!showRetryConfigForm && (
                <>
@@ -233,7 +233,7 @@ export default function Modify() {
             )}
             {showRetryConfigForm && (
                <>
-                  <div className="overflow-auto">
+                  <div>
                      <div className="flex flex-row items-center justify-between p-2">
                         <div>
                            <h2>Number of Retries</h2>
@@ -280,7 +280,7 @@ export default function Modify() {
                         </div>
                      </div>
                   </div>
-                  <div className="flex flex-row justify-start mt-5">
+                  <div className="flex flex-row justify-start my-5">
                      <button
                         className="w-fit mr-5 bg-violet-600 rounded-md px-2 py-1 text-white"
                         onClick={onSaveRetryConfig}
