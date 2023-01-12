@@ -142,7 +142,7 @@ export default function Modify() {
                <>
                   {headers?.map((header, i) => {
                      return (
-                        <div className="flex flex-row">
+                        <div className="flex flex-row" key={i}>
                            <input
                               className="border-2 my-1 rounded-sm border-gray-500 mr-5 text-gray-500 p-2"
                               type="text"
@@ -160,7 +160,7 @@ export default function Modify() {
                         </div>
                      );
                   })}
-                  <div className="flex flex-row justify-start mt-5">
+                  <div className="flex flex-row justify-start my-5">
                      <button
                         className="w-fit mr-5 bg-violet-600 rounded-md px-2 py-1 text-white"
                         onClick={onSaveHeaders}
@@ -233,7 +233,7 @@ export default function Modify() {
             )}
             {showRetryConfigForm && (
                <>
-                  <div className="w-96">
+                  <div className="overflow-auto">
                      <div className="flex flex-row items-center justify-between p-2">
                         <div>
                            <h2>Number of Retries</h2>
@@ -243,7 +243,7 @@ export default function Modify() {
                               onChange={(e) =>
                                  retryConfigChangeHandler(e, "retry")
                               }
-                              className="border-2 p-1"
+                              className="ml-2 border-2 my-1 rounded-sm border-gray-500 text-gray-500 p-2"
                               type="number"
                               value={retryConfig.retry}
                            />
@@ -258,7 +258,7 @@ export default function Modify() {
                               onChange={(e) =>
                                  retryConfigChangeHandler(e, "interval")
                               }
-                              className="border-2 p-1"
+                              className="ml-2 border-2 my-1 rounded-sm border-gray-500 text-gray-500 p-2"
                               type="number"
                               value={retryConfig.retryInterval}
                            />
@@ -273,7 +273,7 @@ export default function Modify() {
                               onChange={(e) =>
                                  retryConfigChangeHandler(e, "timeout")
                               }
-                              className="border-2 p-1"
+                              className="ml-2 border-2 my-1 rounded-sm border-gray-500 text-gray-500 p-2"
                               type="number"
                               value={retryConfig.timeout}
                            />
