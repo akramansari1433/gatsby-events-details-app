@@ -155,7 +155,7 @@ export default function Modify() {
                                 </div>
                             );
                         })}
-                        <div className="flex flex-row justify-start mt-5">
+                        <div className="flex flex-row justify-start my-5">
                             <button
                                 className="w-fit mr-5 bg-violet-600 rounded-md px-2 py-1 text-white"
                                 onClick={onSaveHeaders}
@@ -254,7 +254,7 @@ export default function Modify() {
                                 </div>
                             </div>
                         </div>
-                        <div className="flex flex-row justify-start mt-5">
+                        <div className="flex flex-row justify-start my-5">
                             <button
                                 className="w-fit mr-5 bg-violet-600 rounded-md px-2 py-1 text-white"
                                 onClick={onSaveRetryConfig}
