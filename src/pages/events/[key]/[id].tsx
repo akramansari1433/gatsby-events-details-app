@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import Layout from "../../../components/Layout";
 
 export type Event = {
-   id: number;
+   id: string;
    key: string;
    request: {
       url: string;

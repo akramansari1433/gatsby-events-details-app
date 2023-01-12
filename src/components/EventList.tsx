@@ -16,6 +16,7 @@ export default function EventList() {
       ).then((response) => response.json());
       const data = await res;
       setEventsList(data);
+      console.log(data);
    };
 
    useEffect(() => {
