@@ -40,10 +40,6 @@ export default function EventDetails(props: any) {
         }
         const res = await fetch(`https://workers-middleware.akramansari1433.workers.dev/request/resend`, {
                 method: 'POST',
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json'
-                },
                 body: JSON.stringify(payload)
             }
         ).then((response) => response.json());
@@ -90,7 +86,8 @@ export default function EventDetails(props: any) {
                     />
                 </div>
                 <button onClick={onResendRequest} className="rounded-md border bg-violet-600 py-2 px-4 text-sm font-medium text-white hover:bg-violet-700 focus:outline-none">
-                    {isLoading ? 'Resending...' : 'Resend Request'}
+                    Resend Request
+                    {/* {isLoading ? 'Resending...' : 'Resend Request'} */}
                 </button>
             </div>
             <label htmlFor="include-headers"></label>
