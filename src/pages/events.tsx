@@ -2,6 +2,7 @@ import { Link } from "gatsby";
 import React, { useEffect, useState } from "react";
 import Layout from "../components/Layout";
 import { ResquestType } from "./events/[eventId]/[requestId]";
+import { ChevronDownIcon, ChevronUpIcon } from "@heroicons/react/24/outline";
 
 type EventType = {
     eventId: string;
@@ -13,6 +14,22 @@ type EventType = {
 
 export default function EventList() {
     const [eventsList, setEventsList] = useState<EventType[]>([]);
+    const [expandedRows, setExpandedRows] = useState<any[]>([]);
+    const [expandState, setExpandState] = useState<any>({});
+
+    const handleEpandRow = (eventId: string) => {
+        const currentExpandedRows = expandedRows;
+        const isRowExpanded = currentExpandedRows.includes(eventId);
+
+        let obj: any = {};
+        isRowExpanded ? (obj[eventId] = false) : (obj[eventId] = true);
+        setExpandState(obj);
+        const newExpandedRows = isRowExpanded
+            ? currentExpandedRows.filter((id) => id !== eventId)
+            : currentExpandedRows.concat(eventId);
+
+        setExpandedRows(newExpandedRows);
+    };
 
     const getEvents = async () => {
         const res = await fetch(
@@ -74,29 +91,117 @@ export default function EventList() {
                             </thead>
                             <tbody className="divide-y divide-gray-200 bg-white">
                                 {eventsList?.map((event, i) => (
-                                    <tr key={i}>
-                                        <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">
-                                            {event.customerId}
-                                        </td>
-                                        <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">
-                                            {event.eventId}
-                                        </td>
-                                        <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">
-                                            {event.updatedAt}
-                                        </td>
-                                        <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">
-                                            {event.tries}
-                                        </td>
-                                        <td className=" flex flex-col whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
-                                            <Link
-                                                key={event.eventId}
-                                                to={`/events/${event.eventId}`}
-                                                className="text-indigo-600 hover:text-indigo-900 mb-2"
-                                            >
-                                                View Details
-                                            </Link>
-                                        </td>
-                                    </tr>
+                                    <>
+                                        <tr key={i}>
+                                            <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">
+                                                {event.customerId}
+                                            </td>
+                                            <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">
+                                                {event.eventId}
+                                            </td>
+                                            <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">
+                                                {event.updatedAt}
+                                            </td>
+                                            <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">
+                                                {event.tries}
+                                            </td>
+                                            <td className=" flex flex-col whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
+                                                <button
+                                                    key={event.eventId}
+                                                    onClick={(e) =>
+                                                        handleEpandRow(
+                                                            event.eventId
+                                                        )
+                                                    }
+                                                >
+                                                    {expandState[
+                                                        event.eventId
+                                                    ] ? (
+                                                        <ChevronUpIcon className="text-indigo-600 h-5 w-5" />
+                                                    ) : (
+                                                        <ChevronDownIcon className="text-indigo-600 h-5 w-5" />
+                                                    )}
+                                                </button>
+                                            </td>
+                                        </tr>
+                                        <>
+                                            {expandedRows.includes(
+                                                event.eventId
+                                            ) ? (
+                                                <tr>
+                                                    <td colSpan={6}>
+                                                        <div className="flex justify-center my-3 shadow">
+                                                            <table>
+                                                                <thead className="bg-gray-400">
+                                                                    <tr>
+                                                                        <th
+                                                                            scope="col"
+                                                                            className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6"
+                                                                        >
+                                                                            Event
+                                                                            Id
+                                                                        </th>
+                                                                        <th
+                                                                            scope="col"
+                                                                            className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6"
+                                                                        >
+                                                                            Request
+                                                                            Id
+                                                                        </th>
+                                                                        <th
+                                                                            scope="col"
+                                                                            className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6"
+                                                                        >
+                                                                            Created
+                                                                            At
+                                                                        </th>
+                                                                        <th
+                                                                            scope="col"
+                                                                            className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6"
+                                                                        >
+                                                                            Status
+                                                                        </th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    {event.requests.map(
+                                                                        (
+                                                                            req
+                                                                        ) => (
+                                                                            <tr>
+                                                                                <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">
+                                                                                    {
+                                                                                        req.eventId
+                                                                                    }
+                                                                                </td>
+                                                                                <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">
+                                                                                    {
+                                                                                        req.requestId
+                                                                                    }
+                                                                                </td>
+                                                                                <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">
+                                                                                    {
+                                                                                        req.createdAt
+                                                                                    }
+                                                                                </td>
+                                                                                <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">
+                                                                                    {
+                                                                                        req
+                                                                                            .response
+                                                                                            .status
+                                                                                    }
+                                                                                </td>
+                                                                            </tr>
+                                                                        )
+                                                                    )}
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            ) : null}
+                                        </>
+                                    </>
                                 ))}
                             </tbody>
                         </table>
