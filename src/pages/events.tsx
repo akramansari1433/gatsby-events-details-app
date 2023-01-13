@@ -91,8 +91,8 @@ export default function EventList() {
                             </thead>
                             <tbody className="divide-y divide-gray-200 bg-white">
                                 {eventsList?.map((event, i) => (
-                                    <>
-                                        <tr key={i}>
+                                    <React.Fragment key={i}>
+                                        <tr>
                                             <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">
                                                 {event.customerId}
                                             </td>
@@ -166,9 +166,14 @@ export default function EventList() {
                                                                 <tbody>
                                                                     {event.requests.map(
                                                                         (
-                                                                            req
+                                                                            req,
+                                                                            i
                                                                         ) => (
-                                                                            <tr>
+                                                                            <tr
+                                                                                key={
+                                                                                    i
+                                                                                }
+                                                                            >
                                                                                 <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">
                                                                                     {
                                                                                         req.eventId
@@ -201,7 +206,7 @@ export default function EventList() {
                                                 </tr>
                                             ) : null}
                                         </>
-                                    </>
+                                    </React.Fragment>
                                 ))}
                             </tbody>
                         </table>
