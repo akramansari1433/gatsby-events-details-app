@@ -11,7 +11,7 @@ type EventType = {
     tries?: number;
 };
 
-export default function EventList() {
+export default function InvocationLog() {
     const [eventsList, setEventsList] = useState<EventType[]>([]);
 
     const getEvents = async () => {
@@ -31,7 +31,7 @@ export default function EventList() {
         <Layout>
             <div className="mt-3">
                 <h1 className="font-semibold text-xl text-center">
-                    Events List
+                    Invocation Log
                 </h1>
                 <div className="mt-2 flex flex-col">
                     <div className="overflow overflow-x-auto shadow md:rounded-lg">
@@ -42,25 +42,25 @@ export default function EventList() {
                                         scope="col"
                                         className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6"
                                     >
-                                        Customer Id
-                                    </th>
-                                    <th
-                                        scope="col"
-                                        className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6"
-                                    >
                                         Event ID
                                     </th>
                                     <th
                                         scope="col"
                                         className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6"
                                     >
-                                        Updated At
+                                        Request Id
                                     </th>
                                     <th
                                         scope="col"
                                         className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6"
                                     >
-                                        Tries
+                                        Status
+                                    </th>
+                                    <th
+                                        scope="col"
+                                        className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6"
+                                    >
+                                        Created At
                                     </th>
                                     <th
                                         scope="col"
@@ -76,25 +76,35 @@ export default function EventList() {
                                 {eventsList?.map((event, i) => (
                                     <tr key={i}>
                                         <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">
-                                            {event.customerId}
-                                        </td>
-                                        <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">
                                             {event.eventId}
                                         </td>
                                         <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">
-                                            {event.updatedAt}
+                                            {event.requests.map((req, i) => (
+                                                <p key={i}>{req.requestId}</p>
+                                            ))}
                                         </td>
                                         <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">
-                                            {event.tries}
+                                            {event.requests.map((req, i) => (
+                                                <p key={i}>
+                                                    {req.response.status}
+                                                </p>
+                                            ))}
+                                        </td>
+                                        <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">
+                                            {event.requests.map((req, i) => (
+                                                <p key={i}>{req.createdAt}</p>
+                                            ))}
                                         </td>
                                         <td className=" flex flex-col whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
-                                            <Link
-                                                key={event.eventId}
-                                                to={`/events/${event.eventId}`}
-                                                className="text-indigo-600 hover:text-indigo-900 mb-2"
-                                            >
-                                                View Details
-                                            </Link>
+                                            {event.requests.map((req, i) => (
+                                                <Link
+                                                    key={i}
+                                                    to={`/events/${event.eventId}/${req.requestId}`}
+                                                    className="text-indigo-600 hover:text-indigo-900 mb-2"
+                                                >
+                                                    View Details
+                                                </Link>
+                                            ))}
                                         </td>
                                     </tr>
                                 ))}

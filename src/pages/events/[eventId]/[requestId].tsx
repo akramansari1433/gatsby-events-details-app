@@ -29,9 +29,9 @@ export default function EventDetails(props: any) {
             `https://workers-middleware.akramansari1433.workers.dev/events/${props.params.eventId}/${props.params.requestId}`
         ).then((response) => response.json());
         const data = await res;
-        setRequestDetail(data[0]);
-        // console.log(data[0]);
-        return data[0];
+        setRequestDetail(data);
+        // console.log(data);
+        return data;
     };
 
     const resendRequest = async () => {
@@ -49,7 +49,7 @@ export default function EventDetails(props: any) {
         ).then((response) => response.json());
         const data = await res;
         setRequestDetail(data);
-        // console.log(data[0]);
+        // console.log(data);
         return data;
     };
 

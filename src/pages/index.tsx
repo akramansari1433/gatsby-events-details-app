@@ -1,16 +1,11 @@
 import React from "react";
 import { HeadFC, Link, PageProps } from "gatsby";
 import "../styles/global.css";
-
+import Layout from "../components/Layout";
+import EventList from "./events";
 
 const IndexPage: React.FC<PageProps> = () => {
-
-    return (
-        <>
-            <Link to="modify">Modify</Link>
-            <Link to="events">Events</Link>
-        </>
-    );
+    return <EventList />;
 };
 
 export default IndexPage;
