@@ -1,6 +1,7 @@
-import React from 'react';
-import RootElement from './src/components/root-element';
+import "./src/styles/global.css";
+import React from "react";
+import RootElement from "./src/components/root-element";
 
 export const wrapRootElement = ({ element }) => {
-  return <RootElement>{element}</RootElement>;
+    return <RootElement>{element}</RootElement>;
 };
