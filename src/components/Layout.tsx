@@ -8,13 +8,19 @@ import {
     ClipboardDocumentListIcon,
     AdjustmentsHorizontalIcon,
 } from "@heroicons/react/24/outline";
+import { Link } from "gatsby";
 
 type LayoutProps = {
     children: React.ReactNode;
 };
 
 const navigation = [
-    { name: "Events", href: "/events", icon: CalendarDaysIcon, current: true },
+    { 
+        name: "Events", 
+        href: "/events", 
+        icon: CalendarDaysIcon, 
+        current: true 
+    },
     {
         name: "Invocation Log",
         href: "/invocationlog",
@@ -103,17 +109,13 @@ export default function Layout({ children }: LayoutProps) {
                                         </div>
                                         <nav className="mt-5 space-y-1 px-2">
                                             {navigation.map((item) => (
-                                                <a
-                                                    key={item.name}
-                                                    href={item.href}
-                                                    className=" text-white group flex items-center px-2 py-2 text-base font-medium rounded-md"
-                                                >
+                                                <Link activeStyle={{ background: 'rgb(91 33 182)' }} className=" text-white group flex items-center px-2 py-2 text-base font-medium rounded-md" to={item.href}>
                                                     <item.icon
                                                         className="text-white mr-4 flex-shrink-0 h-6 w-6"
                                                         aria-hidden="true"
                                                     />
                                                     {item.name}
-                                                </a>
+                                                </Link>
                                             ))}
                                         </nav>
                                     </div>
@@ -138,17 +140,13 @@ export default function Layout({ children }: LayoutProps) {
                             </div>
                             <nav className="mt-5 flex-1 space-y-1 bg-violet-700 px-2">
                                 {navigation.map((item) => (
-                                    <a
-                                        key={item.name}
-                                        href={item.href}
-                                        className=" hover:bg-violet-800 text-white group flex items-center px-2 py-2 text-sm font-medium rounded-md"
-                                    >
+                                    <Link activeStyle={{ background: 'rgb(91 33 182)' }} className="hover:bg-violet-800 text-white group flex items-center px-2 py-2 text-sm font-medium rounded-md" to={item.href}>
                                         <item.icon
-                                            className="text-white mr-3 flex-shrink-0 h-6 w-6"
+                                            className="text-white mr-4 flex-shrink-0 h-6 w-6"
                                             aria-hidden="true"
                                         />
                                         {item.name}
-                                    </a>
+                                    </Link>
                                 ))}
                             </nav>
                         </div>

@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import Layout from "../../../components/Layout";
 
-export type ResquestType = {
+export type RequestType = {
     requestId: string;
     eventId: string;
     request: {
@@ -11,6 +11,7 @@ export type ResquestType = {
         method: string;
         headers: any;
         body?: any;
+        tries?: number;
     };
     response: {
         status?: number;
@@ -20,7 +21,7 @@ export type ResquestType = {
 };
 
 export default function EventDetails(props: any) {
-    const [requestDetail, setRequestDetail] = useState<ResquestType>();
+    const [requestDetail, setRequestDetail] = useState<RequestType>();
     const [includeCustomerHeaders, setIncludeCustomerHeaders] =
         useState<boolean>(true);
 

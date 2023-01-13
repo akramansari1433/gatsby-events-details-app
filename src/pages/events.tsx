@@ -1,13 +1,13 @@
 import { Link } from "gatsby";
 import React, { useEffect, useState } from "react";
 import Layout from "../components/Layout";
-import { ResquestType } from "./events/[eventId]/[requestId]";
+import { RequestType } from "./events/[eventId]/[requestId]";
 import { ChevronDownIcon, ChevronUpIcon } from "@heroicons/react/24/outline";
 
 type EventType = {
     eventId: string;
     customerId: string;
-    requests: ResquestType[];
+    requests: RequestType[];
     updatedAt: string;
     tries?: number;
 };
@@ -73,12 +73,12 @@ export default function EventList() {
                                     >
                                         Updated At
                                     </th>
-                                    <th
+                                    {/* <th
                                         scope="col"
                                         className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6"
                                     >
                                         Tries
-                                    </th>
+                                    </th> */}
                                     <th
                                         scope="col"
                                         className="relative py-3.5 pl-3 pr-4 sm:pr-6"
@@ -102,9 +102,9 @@ export default function EventList() {
                                             <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">
                                                 {event.updatedAt}
                                             </td>
-                                            <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">
+                                            {/* <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">
                                                 {event.tries}
-                                            </td>
+                                            </td> */}
                                             <td className=" flex flex-col whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
                                                 <button
                                                     key={event.eventId}
@@ -138,22 +138,25 @@ export default function EventList() {
                                                                             scope="col"
                                                                             className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6"
                                                                         >
-                                                                            Event
-                                                                            Id
+                                                                            Event Id
                                                                         </th>
                                                                         <th
                                                                             scope="col"
                                                                             className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6"
                                                                         >
-                                                                            Request
-                                                                            Id
+                                                                            Request Id
                                                                         </th>
                                                                         <th
                                                                             scope="col"
                                                                             className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6"
                                                                         >
-                                                                            Created
-                                                                            At
+                                                                            Created At
+                                                                        </th>
+                                                                        <th
+                                                                            scope="col"
+                                                                            className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6"
+                                                                        >
+                                                                            Tries
                                                                         </th>
                                                                         <th
                                                                             scope="col"
@@ -165,10 +168,7 @@ export default function EventList() {
                                                                 </thead>
                                                                 <tbody>
                                                                     {event.requests.map(
-                                                                        (
-                                                                            req,
-                                                                            i
-                                                                        ) => (
+                                                                        (req, i) => (
                                                                             <tr
                                                                                 key={
                                                                                     i
@@ -191,9 +191,12 @@ export default function EventList() {
                                                                                 </td>
                                                                                 <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">
                                                                                     {
-                                                                                        req
-                                                                                            .response
-                                                                                            .status
+                                                                                        req.request.tries
+                                                                                    }
+                                                                                </td>
+                                                                                <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">
+                                                                                    {
+                                                                                        req.response.status
                                                                                     }
                                                                                 </td>
                                                                             </tr>
