@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import Layout from "../components/Layout";
 import { RequestType } from "./events/[eventId]/[requestId]";
 import { ChevronDownIcon, ChevronUpIcon } from "@heroicons/react/24/outline";
-import TableSkeleton from "../utils/TableSkeleton";
+import EventsSkeleton from "../utils/EventsSkeleton";
 
 type EventType = {
     eventId: string;
@@ -57,7 +57,7 @@ export default function EventList() {
                     Events List
                 </h1>
                 {loading ? (
-                    <TableSkeleton />
+                    <EventsSkeleton />
                 ) : (
                     <div className="mt-2 flex flex-col">
                         <div className="overflow overflow-x-auto shadow md:rounded-lg">

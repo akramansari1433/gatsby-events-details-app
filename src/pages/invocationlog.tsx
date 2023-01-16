@@ -1,7 +1,7 @@
 import { Link } from "gatsby";
 import React, { useEffect, useState } from "react";
 import Layout from "../components/Layout";
-import TableSkeleton from "../utils/TableSkeleton";
+import InvocationLogSkeleton from "../utils/InvocationLogSkeleton";
 import { RequestType } from "./events/[eventId]/[requestId]";
 
 type EventType = {
@@ -41,7 +41,7 @@ export default function InvocationLog() {
                     Invocation Log
                 </h1>
                 {loading ? (
-                    <TableSkeleton />
+                    <InvocationLogSkeleton />
                 ) : (
                     <div className="mt-2 flex flex-col">
                         <div className="overflow overflow-x-auto shadow md:rounded-lg">
