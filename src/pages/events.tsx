@@ -37,7 +37,7 @@ export default function EventList() {
         ).then((response) => response.json());
         const data = await res;
         setEventsList(data);
-        // console.log(data);
+        console.log(data);
     };
 
     useEffect(() => {
@@ -138,19 +138,22 @@ export default function EventList() {
                                                                             scope="col"
                                                                             className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6"
                                                                         >
-                                                                            Event Id
+                                                                            Event
+                                                                            Id
                                                                         </th>
                                                                         <th
                                                                             scope="col"
                                                                             className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6"
                                                                         >
-                                                                            Request Id
+                                                                            Request
+                                                                            Id
                                                                         </th>
                                                                         <th
                                                                             scope="col"
                                                                             className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6"
                                                                         >
-                                                                            Created At
+                                                                            Created
+                                                                            At
                                                                         </th>
                                                                         <th
                                                                             scope="col"
@@ -168,7 +171,10 @@ export default function EventList() {
                                                                 </thead>
                                                                 <tbody>
                                                                     {event.requests.map(
-                                                                        (req, i) => (
+                                                                        (
+                                                                            req,
+                                                                            i
+                                                                        ) => (
                                                                             <tr
                                                                                 key={
                                                                                     i
@@ -191,12 +197,16 @@ export default function EventList() {
                                                                                 </td>
                                                                                 <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">
                                                                                     {
-                                                                                        req.request.tries
+                                                                                        req
+                                                                                            .request
+                                                                                            .tries
                                                                                     }
                                                                                 </td>
                                                                                 <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">
                                                                                     {
-                                                                                        req.response.status
+                                                                                        req
+                                                                                            .response
+                                                                                            .status
                                                                                     }
                                                                                 </td>
                                                                             </tr>

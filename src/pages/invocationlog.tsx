@@ -80,19 +80,23 @@ export default function InvocationLog() {
                                         </td>
                                         <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">
                                             {event.requests.map((req, i) => (
-                                                <p key={i}>{req.requestId}</p>
+                                                <p key={i} className="py-1">
+                                                    {req.requestId}
+                                                </p>
                                             ))}
                                         </td>
                                         <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">
                                             {event.requests.map((req, i) => (
-                                                <p key={i}>
+                                                <p key={i} className="py-1">
                                                     {req.response.status}
                                                 </p>
                                             ))}
                                         </td>
                                         <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">
                                             {event.requests.map((req, i) => (
-                                                <p key={i}>{req.createdAt}</p>
+                                                <p key={i} className="py-1">
+                                                    {req.createdAt}
+                                                </p>
                                             ))}
                                         </td>
                                         <td className=" flex flex-col whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
@@ -100,7 +104,7 @@ export default function InvocationLog() {
                                                 <Link
                                                     key={i}
                                                     to={`/events/${event.eventId}/${req.requestId}`}
-                                                    className="text-indigo-600 hover:text-indigo-900 mb-2"
+                                                    className="text-indigo-600 hover:text-indigo-900 py-1"
                                                 >
                                                     View Details
                                                 </Link>

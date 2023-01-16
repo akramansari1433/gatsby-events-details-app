@@ -15,11 +15,11 @@ type LayoutProps = {
 };
 
 const navigation = [
-    { 
-        name: "Events", 
-        href: "/events", 
-        icon: CalendarDaysIcon, 
-        current: true 
+    {
+        name: "Events",
+        href: "/events",
+        icon: CalendarDaysIcon,
+        current: true,
     },
     {
         name: "Invocation Log",
@@ -108,8 +108,16 @@ export default function Layout({ children }: LayoutProps) {
                                             </h1>
                                         </div>
                                         <nav className="mt-5 space-y-1 px-2">
-                                            {navigation.map((item) => (
-                                                <Link activeStyle={{ background: 'rgb(91 33 182)' }} className=" text-white group flex items-center px-2 py-2 text-base font-medium rounded-md" to={item.href}>
+                                            {navigation.map((item, i) => (
+                                                <Link
+                                                    key={i}
+                                                    activeStyle={{
+                                                        background:
+                                                            "rgb(91 33 182)",
+                                                    }}
+                                                    className=" text-white group flex items-center px-2 py-2 text-base font-medium rounded-md"
+                                                    to={item.href}
+                                                >
                                                     <item.icon
                                                         className="text-white mr-4 flex-shrink-0 h-6 w-6"
                                                         aria-hidden="true"
@@ -139,8 +147,15 @@ export default function Layout({ children }: LayoutProps) {
                                 </h1>
                             </div>
                             <nav className="mt-5 flex-1 space-y-1 bg-violet-700 px-2">
-                                {navigation.map((item) => (
-                                    <Link activeStyle={{ background: 'rgb(91 33 182)' }} className="hover:bg-violet-800 text-white group flex items-center px-2 py-2 text-sm font-medium rounded-md" to={item.href}>
+                                {navigation.map((item, i) => (
+                                    <Link
+                                        key={i}
+                                        activeStyle={{
+                                            background: "rgb(91 33 182)",
+                                        }}
+                                        className="hover:bg-violet-800 text-white group flex items-center px-2 py-2 text-sm font-medium rounded-md"
+                                        to={item.href}
+                                    >
                                         <item.icon
                                             className="text-white mr-4 flex-shrink-0 h-6 w-6"
                                             aria-hidden="true"
