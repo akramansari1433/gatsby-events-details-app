@@ -52,13 +52,13 @@ export default function InvocationLog() {
                                             scope="col"
                                             className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6"
                                         >
-                                            Event ID
+                                            Request Id
                                         </th>
                                         <th
                                             scope="col"
                                             className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6"
                                         >
-                                            Request Id
+                                            Event Id
                                         </th>
                                         <th
                                             scope="col"
@@ -86,7 +86,16 @@ export default function InvocationLog() {
                                     {eventsList?.map((event, i) => (
                                         <tr key={i}>
                                             <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">
-                                                {event.eventId}
+                                                {event.requests.map(
+                                                    (req, i) => (
+                                                        <p
+                                                            key={i}
+                                                            className="py-1"
+                                                        >
+                                                            {req.requestId}
+                                                        </p>
+                                                    )
+                                                )}
                                             </td>
                                             <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">
                                                 {event.requests.map(
@@ -95,7 +104,7 @@ export default function InvocationLog() {
                                                             key={i}
                                                             className="py-1"
                                                         >
-                                                            {req.requestId}
+                                                            {req.eventId}
                                                         </p>
                                                     )
                                                 )}
