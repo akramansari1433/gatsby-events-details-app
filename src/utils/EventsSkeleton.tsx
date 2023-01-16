@@ -16,44 +16,44 @@ export default function EventsSkeleton() {
                     <tbody className="divide-y divide-gray-200 bg-white">
                         <tr>
                             <td className="py-4 pl-4 pr-3" colSpan={4}>
-                                <p className="py-2 bg-gray-400 w-full"></p>
+                                <p className="py-2 bg-gray-100 w-full"></p>
                             </td>
                             <td className="py-4 pl-4 pr-3 " colSpan={4}>
-                                <p className="py-2 bg-gray-400 w-4/12"></p>
+                                <p className="py-2 bg-gray-100 w-4/12"></p>
                             </td>
                             <td className="py-4 pl-4 pr-3 " colSpan={3}>
-                                <p className="py-2 bg-gray-400 w-3/12"></p>
+                                <p className="py-2 bg-gray-100 w-3/12"></p>
                             </td>
                             <td className="py-4 pl-4 pr-3" colSpan={1}>
-                                <p className="py-2 bg-gray-400 w-full"></p>
+                                <p className="py-2 bg-gray-100 w-full"></p>
                             </td>
                         </tr>
                         <tr>
                             <td className="py-4 pl-4 pr-3" colSpan={4}>
-                                <p className="py-2 bg-gray-400 w-full"></p>
+                                <p className="py-2 bg-gray-100 w-full"></p>
                             </td>
                             <td className="py-4 pl-4 pr-3 " colSpan={4}>
-                                <p className="py-2 bg-gray-400 w-4/12"></p>
+                                <p className="py-2 bg-gray-100 w-4/12"></p>
                             </td>
                             <td className="py-4 pl-4 pr-3 " colSpan={3}>
-                                <p className="py-2 bg-gray-400 w-3/12"></p>
+                                <p className="py-2 bg-gray-100 w-3/12"></p>
                             </td>
                             <td className="py-4 pl-4 pr-3" colSpan={1}>
-                                <p className="py-2 bg-gray-400 w-full"></p>
+                                <p className="py-2 bg-gray-100 w-full"></p>
                             </td>
                         </tr>
                         <tr>
                             <td className="py-4 pl-4 pr-3" colSpan={4}>
-                                <p className="py-2 bg-gray-400 w-full"></p>
+                                <p className="py-2 bg-gray-100 w-full"></p>
                             </td>
                             <td className="py-4 pl-4 pr-3 " colSpan={4}>
-                                <p className="py-2 bg-gray-400 w-4/12"></p>
+                                <p className="py-2 bg-gray-100 w-4/12"></p>
                             </td>
                             <td className="py-4 pl-4 pr-3 " colSpan={3}>
-                                <p className="py-2 bg-gray-400 w-3/12"></p>
+                                <p className="py-2 bg-gray-100 w-3/12"></p>
                             </td>
                             <td className="py-4 pl-4 pr-3" colSpan={1}>
-                                <p className="py-2 bg-gray-400 w-full"></p>
+                                <p className="py-2 bg-gray-100 w-full"></p>
                             </td>
                         </tr>
                     </tbody>

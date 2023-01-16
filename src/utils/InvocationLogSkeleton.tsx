@@ -17,52 +17,52 @@ export default function InvocationLogSkeleton() {
                     <tbody className="divide-y divide-gray-200 bg-white">
                         <tr>
                             <td className="whitespace-nowrap py-4 pl-4 pr-3 ">
-                                <p className="py-2 bg-gray-400 w-80"></p>
+                                <p className="py-2 bg-gray-100 w-80"></p>
                             </td>
                             <td className="whitespace-nowrap py-4 pl-4 pr-3 ">
-                                <p className="py-2 my-1 bg-gray-400 w-80"></p>
-                                <p className="py-2 my-1 bg-gray-400 w-80"></p>
-                                <p className="py-2 my-1 bg-gray-400 w-80"></p>
+                                <p className="py-2 my-1 bg-gray-100 w-80"></p>
+                                <p className="py-2 my-1 bg-gray-100 w-80"></p>
+                                <p className="py-2 my-1 bg-gray-100 w-80"></p>
                             </td>
                             <td className="whitespace-nowrap py-4 pl-4 pr-3 ">
-                                <p className="py-2 my-1 bg-gray-400 w-80"></p>
-                                <p className="py-2 my-1 bg-gray-400 w-80"></p>
-                                <p className="py-2 my-1 bg-gray-400 w-80"></p>
+                                <p className="py-2 my-1 bg-gray-100 w-80"></p>
+                                <p className="py-2 my-1 bg-gray-100 w-80"></p>
+                                <p className="py-2 my-1 bg-gray-100 w-80"></p>
                             </td>
                             <td className="whitespace-nowrap py-4 pl-4 pr-3 ">
-                                <p className="py-2 my-1 bg-gray-400 w-80"></p>
-                                <p className="py-2 my-1 bg-gray-400 w-80"></p>
-                                <p className="py-2 my-1 bg-gray-400 w-80"></p>
+                                <p className="py-2 my-1 bg-gray-100 w-80"></p>
+                                <p className="py-2 my-1 bg-gray-100 w-80"></p>
+                                <p className="py-2 my-1 bg-gray-100 w-80"></p>
                             </td>
                             <td className="whitespace-nowrap py-4 pl-4 pr-3 ">
-                                <p className="py-2 my-1 bg-gray-400 w-80"></p>
-                                <p className="py-2 my-1 bg-gray-400 w-80"></p>
-                                <p className="py-2 my-1 bg-gray-400 w-80"></p>
+                                <p className="py-2 my-1 bg-gray-100 w-80"></p>
+                                <p className="py-2 my-1 bg-gray-100 w-80"></p>
+                                <p className="py-2 my-1 bg-gray-100 w-80"></p>
                             </td>
                         </tr>
                         <tr>
                             <td className="whitespace-nowrap py-4 pl-4 pr-3 ">
-                                <p className="py-2 bg-gray-400 w-80"></p>
+                                <p className="py-2 bg-gray-100 w-80"></p>
                             </td>
                             <td className="whitespace-nowrap py-4 pl-4 pr-3 ">
-                                <p className="py-2 my-1 bg-gray-400 w-80"></p>
-                                <p className="py-2 my-1 bg-gray-400 w-80"></p>
-                                <p className="py-2 my-1 bg-gray-400 w-80"></p>
+                                <p className="py-2 my-1 bg-gray-100 w-80"></p>
+                                <p className="py-2 my-1 bg-gray-100 w-80"></p>
+                                <p className="py-2 my-1 bg-gray-100 w-80"></p>
                             </td>
                             <td className="whitespace-nowrap py-4 pl-4 pr-3 ">
-                                <p className="py-2 my-1 bg-gray-400 w-80"></p>
-                                <p className="py-2 my-1 bg-gray-400 w-80"></p>
-                                <p className="py-2 my-1 bg-gray-400 w-80"></p>
+                                <p className="py-2 my-1 bg-gray-100 w-80"></p>
+                                <p className="py-2 my-1 bg-gray-100 w-80"></p>
+                                <p className="py-2 my-1 bg-gray-100 w-80"></p>
                             </td>
                             <td className="whitespace-nowrap py-4 pl-4 pr-3 ">
-                                <p className="py-2 my-1 bg-gray-400 w-80"></p>
-                                <p className="py-2 my-1 bg-gray-400 w-80"></p>
-                                <p className="py-2 my-1 bg-gray-400 w-80"></p>
+                                <p className="py-2 my-1 bg-gray-100 w-80"></p>
+                                <p className="py-2 my-1 bg-gray-100 w-80"></p>
+                                <p className="py-2 my-1 bg-gray-100 w-80"></p>
                             </td>
                             <td className="whitespace-nowrap py-4 pl-4 pr-3 ">
-                                <p className="py-2 my-1 bg-gray-400 w-80"></p>
-                                <p className="py-2 my-1 bg-gray-400 w-80"></p>
-                                <p className="py-2 my-1 bg-gray-400 w-80"></p>
+                                <p className="py-2 my-1 bg-gray-100 w-80"></p>
+                                <p className="py-2 my-1 bg-gray-100 w-80"></p>
+                                <p className="py-2 my-1 bg-gray-100 w-80"></p>
                             </td>
                         </tr>
                     </tbody>
