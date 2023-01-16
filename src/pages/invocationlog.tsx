@@ -1,12 +1,12 @@
 import { Link } from "gatsby";
 import React, { useEffect, useState } from "react";
 import Layout from "../components/Layout";
-import { ResquestType } from "./events/[eventId]/[requestId]";
+import { RequestType } from "./events/[eventId]/[requestId]";
 
 type EventType = {
     eventId: string;
     customerId: string;
-    requests: ResquestType[];
+    requests: RequestType[];
     updatedAt: string;
     tries?: number;
 };
