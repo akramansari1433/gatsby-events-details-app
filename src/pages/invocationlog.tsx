@@ -1,6 +1,7 @@
 import { Link } from "gatsby";
 import React, { useEffect, useState } from "react";
 import Layout from "../components/Layout";
+import { dateTimeFormatter } from "../utils/helper";
 import InvocationLogSkeleton from "../utils/InvocationLogSkeleton";
 import { RequestType } from "./events/[eventId]/[requestId]";
 
@@ -35,7 +36,7 @@ export default function InvocationLog() {
     }, []);
 
     return (
-        <Layout>
+        <>
             <div className="mt-3">
                 <h1 className="font-semibold text-xl text-center">
                     Invocation Log
@@ -131,7 +132,9 @@ export default function InvocationLog() {
                                                             key={i}
                                                             className="py-1"
                                                         >
-                                                            {req.createdAt}
+                                                            {dateTimeFormatter(
+                                                                req.createdAt
+                                                            )}
                                                         </p>
                                                     )
                                                 )}
@@ -157,6 +160,6 @@ export default function InvocationLog() {
                     </div>
                 )}
             </div>
-        </Layout>
+        </>
     );
 }

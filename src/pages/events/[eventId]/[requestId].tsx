@@ -69,7 +69,7 @@ export default function EventDetails(props: any) {
     };
 
     return (
-        <Layout>
+        <>
             <h1 className="text-4xl text-center mt-3">Event Details</h1>
             <h3>Endpoint: </h3> {requestDetail?.request.endpoint}
             <div className="flex flex-wrap w-full justify-center">
@@ -110,7 +110,7 @@ export default function EventDetails(props: any) {
                 }
             />
             Include Custom Headers
-        </Layout>
+        </>
     );
 }
 

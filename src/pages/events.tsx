@@ -4,6 +4,7 @@ import Layout from "../components/Layout";
 import { RequestType } from "./events/[eventId]/[requestId]";
 import { ChevronDownIcon, ChevronUpIcon } from "@heroicons/react/24/outline";
 import EventsSkeleton from "../utils/EventsSkeleton";
+import { dateTimeFormatter } from "../utils/helper";
 
 type EventType = {
     eventId: string;
@@ -51,7 +52,7 @@ export default function EventList() {
     }, []);
 
     return (
-        <Layout>
+        <>
             <div className="mt-3">
                 <h1 className="font-semibold text-xl text-center">
                     Events List
@@ -109,7 +110,9 @@ export default function EventList() {
                                                     {event.eventId}
                                                 </td>
                                                 <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">
-                                                    {event.updatedAt}
+                                                    {dateTimeFormatter(
+                                                        event.updatedAt
+                                                    )}
                                                 </td>
                                                 {/* <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">
                                                 {event.tries}
@@ -200,9 +203,9 @@ export default function EventList() {
                                                                                         }
                                                                                     </td>
                                                                                     <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">
-                                                                                        {
+                                                                                        {dateTimeFormatter(
                                                                                             req.createdAt
-                                                                                        }
+                                                                                        )}
                                                                                     </td>
                                                                                     <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">
                                                                                         {
@@ -236,6 +239,6 @@ export default function EventList() {
                     </div>
                 )}
             </div>
-        </Layout>
+        </>
     );
 }

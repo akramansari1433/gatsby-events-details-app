@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Fragment, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import {
@@ -6,41 +6,21 @@ import {
     XMarkIcon,
     CalendarDaysIcon,
     ClipboardDocumentListIcon,
-    AdjustmentsHorizontalIcon,
+    UserGroupIcon,
+    ChevronDownIcon,
+    ChevronUpIcon,
 } from "@heroicons/react/24/outline";
 import { Link } from "gatsby";
+import { CustomerContext } from "../context/customer-context";
 
 type LayoutProps = {
     children: React.ReactNode;
 };
 
-const navigation = [
-    {
-        name: "Events",
-        href: "/events",
-        icon: CalendarDaysIcon,
-        current: true,
-    },
-    {
-        name: "Invocation Log",
-        href: "/invocationlog",
-        icon: ClipboardDocumentListIcon,
-        current: false,
-    },
-    {
-        name: "Modify",
-        href: "/modify",
-        icon: AdjustmentsHorizontalIcon,
-        current: false,
-    },
-];
-
-function classNames(...classes: any[]) {
-    return classes.filter(Boolean).join(" ");
-}
-
 export default function Layout({ children }: LayoutProps) {
     const [sidebarOpen, setSidebarOpen] = useState(false);
+    const [showCustomers, setShowCustomers] = useState(false);
+    const customers = useContext(CustomerContext);
 
     return (
         <>
@@ -108,23 +88,86 @@ export default function Layout({ children }: LayoutProps) {
                                             </h1>
                                         </div>
                                         <nav className="mt-5 space-y-1 px-2">
-                                            {navigation.map((item, i) => (
-                                                <Link
-                                                    key={i}
-                                                    activeStyle={{
-                                                        background:
-                                                            "rgb(91 33 182)",
-                                                    }}
-                                                    className=" text-white group flex items-center px-2 py-2 text-base font-medium rounded-md"
-                                                    to={item.href}
-                                                >
-                                                    <item.icon
-                                                        className="text-white mr-4 flex-shrink-0 h-6 w-6"
+                                            <Link
+                                                activeStyle={{
+                                                    background:
+                                                        "rgb(91 33 182)",
+                                                }}
+                                                className=" text-white group flex items-center px-2 py-2 text-base font-medium rounded-md"
+                                                to="/events"
+                                            >
+                                                <CalendarDaysIcon
+                                                    className="text-white mr-4 flex-shrink-0 h-6 w-6"
+                                                    aria-hidden="true"
+                                                />
+                                                Events
+                                            </Link>
+                                            <Link
+                                                activeStyle={{
+                                                    background:
+                                                        "rgb(91 33 182)",
+                                                }}
+                                                className=" text-white group flex items-center px-2 py-2 text-base font-medium rounded-md"
+                                                to="/invocationlog"
+                                            >
+                                                <ClipboardDocumentListIcon
+                                                    className="text-white mr-4 flex-shrink-0 h-6 w-6"
+                                                    aria-hidden="true"
+                                                />
+                                                Invocation Log
+                                            </Link>
+                                            <button
+                                                className="hover:bg-violet-800 text-white group flex items-center px-2 py-2 text-sm font-medium rounded-md w-full"
+                                                onClick={() =>
+                                                    setShowCustomers(
+                                                        !showCustomers
+                                                    )
+                                                }
+                                            >
+                                                <UserGroupIcon
+                                                    className="text-white mr-4 flex-shrink-0 h-6 w-6"
+                                                    aria-hidden="true"
+                                                />
+                                                Customers
+                                                {showCustomers ? (
+                                                    <ChevronUpIcon
+                                                        className="ml-auto text-white mr-4 flex-shrink-0 h-6 w-6"
                                                         aria-hidden="true"
                                                     />
-                                                    {item.name}
-                                                </Link>
-                                            ))}
+                                                ) : (
+                                                    <ChevronDownIcon
+                                                        className="ml-auto text-white mr-4 flex-shrink-0 h-6 w-6"
+                                                        aria-hidden="true"
+                                                    />
+                                                )}
+                                            </button>
+                                            {showCustomers && (
+                                                <ul className="ml-10">
+                                                    {customers.map(
+                                                        (customer) => (
+                                                            <li
+                                                                className="my-1"
+                                                                key={
+                                                                    customer.customerId
+                                                                }
+                                                            >
+                                                                <Link
+                                                                    activeStyle={{
+                                                                        background:
+                                                                            "rgb(91 33 182)",
+                                                                    }}
+                                                                    className="hover:bg-violet-800 text-white group flex items-center px-2 py-2 text-sm font-medium rounded-md"
+                                                                    to={`/customers/${customer.customerId}`}
+                                                                >
+                                                                    {
+                                                                        customer.customerName
+                                                                    }
+                                                                </Link>
+                                                            </li>
+                                                        )
+                                                    )}
+                                                </ul>
+                                            )}
                                         </nav>
                                     </div>
                                 </Dialog.Panel>
@@ -147,22 +190,76 @@ export default function Layout({ children }: LayoutProps) {
                                 </h1>
                             </div>
                             <nav className="mt-5 flex-1 space-y-1 bg-violet-700 px-2">
-                                {navigation.map((item, i) => (
-                                    <Link
-                                        key={i}
-                                        activeStyle={{
-                                            background: "rgb(91 33 182)",
-                                        }}
-                                        className="hover:bg-violet-800 text-white group flex items-center px-2 py-2 text-sm font-medium rounded-md"
-                                        to={item.href}
-                                    >
-                                        <item.icon
-                                            className="text-white mr-4 flex-shrink-0 h-6 w-6"
+                                <Link
+                                    activeStyle={{
+                                        background: "rgb(91 33 182)",
+                                    }}
+                                    className="hover:bg-violet-800 text-white group flex items-center px-2 py-2 text-sm font-medium rounded-md"
+                                    to="/events"
+                                >
+                                    <CalendarDaysIcon
+                                        className="text-white mr-4 flex-shrink-0 h-6 w-6"
+                                        aria-hidden="true"
+                                    />
+                                    Events
+                                </Link>
+                                <Link
+                                    activeStyle={{
+                                        background: "rgb(91 33 182)",
+                                    }}
+                                    className="hover:bg-violet-800 text-white group flex items-center px-2 py-2 text-sm font-medium rounded-md"
+                                    to="/invocationlog"
+                                >
+                                    <ClipboardDocumentListIcon
+                                        className="text-white mr-4 flex-shrink-0 h-6 w-6"
+                                        aria-hidden="true"
+                                    />
+                                    Invocation Log
+                                </Link>
+                                <button
+                                    className="hover:bg-violet-800 text-white group flex items-center px-2 py-2 text-sm font-medium rounded-md w-full"
+                                    onClick={() =>
+                                        setShowCustomers(!showCustomers)
+                                    }
+                                >
+                                    <UserGroupIcon
+                                        className="text-white mr-4 flex-shrink-0 h-6 w-6"
+                                        aria-hidden="true"
+                                    />
+                                    Customers
+                                    {showCustomers ? (
+                                        <ChevronUpIcon
+                                            className="ml-auto text-white mr-4 flex-shrink-0 h-6 w-6"
                                             aria-hidden="true"
                                         />
-                                        {item.name}
-                                    </Link>
-                                ))}
+                                    ) : (
+                                        <ChevronDownIcon
+                                            className="ml-auto text-white mr-4 flex-shrink-0 h-6 w-6"
+                                            aria-hidden="true"
+                                        />
+                                    )}
+                                </button>
+                                {showCustomers && (
+                                    <ul className="ml-10">
+                                        {customers.map((customer) => (
+                                            <li
+                                                className="my-1"
+                                                key={customer.customerId}
+                                            >
+                                                <Link
+                                                    activeStyle={{
+                                                        background:
+                                                            "rgb(91 33 182)",
+                                                    }}
+                                                    className="hover:bg-violet-800 text-white group flex items-center px-2 py-2 text-sm font-medium rounded-md"
+                                                    to={`/customers/${customer.customerId}`}
+                                                >
+                                                    {customer.customerName}
+                                                </Link>
+                                            </li>
+                                        ))}
+                                    </ul>
+                                )}
                             </nav>
                         </div>
                     </div>

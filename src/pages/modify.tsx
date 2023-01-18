@@ -154,7 +154,7 @@ export default function Modify() {
     }, [headers]);
 
     return (
-        <Layout>
+        <>
             <div className="flex flex-col w-full">
                 <div className="lg:w-1/2">
                     <div className="flex flex-row justify-between">
@@ -376,6 +376,6 @@ export default function Modify() {
                     )}
                 </div>
             </div>
-        </Layout>
+        </>
     );
 }
