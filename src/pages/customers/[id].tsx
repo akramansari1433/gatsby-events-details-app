@@ -19,7 +19,7 @@ export default function EventList(props: any) {
     const [showRetryConfigModal, setRetryConfigShowModal] = useState(false);
     const [currentEndpoint, setCurrentEndpoint] = useState<EndpointType>();
 
-    const customers = useContext(CustomerContext);
+    const { customers } = useContext(CustomerContext);
     const currentCustomer = customers.find(
         (customer) => customer.customerId === props.params.id
     );

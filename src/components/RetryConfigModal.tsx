@@ -1,4 +1,5 @@
-import React, { ChangeEvent, useEffect, useState } from "react";
+import React, { ChangeEvent, useContext, useEffect, useState } from "react";
+import { CustomerContext, CustomerType } from "../context/customer-context";
 import { EndpointType } from "../pages/customers/[id]";
 
 type PropsType = {
@@ -16,6 +17,7 @@ type TRetryConfigType = {
 export default function RetryConfigModal({
     setRetryConfigShowModal,
     endpoint,
+    customerId,
 }: PropsType) {
     const emptyRetryConfigData: TRetryConfigType = {
         numberOfRetries: 0,
@@ -25,14 +27,38 @@ export default function RetryConfigModal({
     const [editMode, setEditMode] = useState(false);
     const [retryConfig, setRetryConfig] =
         useState<TRetryConfigType>(emptyRetryConfigData);
+    const { customers, setCustomers } = useContext(CustomerContext);
 
     const retryConfigChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
-        console;
         setRetryConfig((prev) => ({ ...prev, [e.target.id]: e.target.value }));
     };
 
+    const onSaveRetryConfig = async () => {
+        try {
+            const response: { data: CustomerType; message: string } =
+                await fetch(
+                    `https://workers-middleware.akramansari1433.workers.dev/retryconfig/${customerId}/${endpoint.endpointId}`,
+                    {
+                        method: "POST",
+                        body: JSON.stringify({ retryConfig }),
+                    }
+                ).then((res) => res.json());
+
+            let updatedCustomers = customers.map((customer) => {
+                if (customer.customerId == customerId) {
+                    return (customer = response.data);
+                } else return customer;
+            });
+
+            setCustomers(updatedCustomers);
+        } catch (error) {
+            console.log("Error: ", error);
+        }
+        setRetryConfigShowModal(false);
+    };
+
     useEffect(() => {
-        endpoint && setRetryConfig(endpoint.retryConfig);
+        endpoint.retryConfig && setRetryConfig(endpoint.retryConfig);
     }, []);
 
     return (
@@ -127,9 +153,7 @@ export default function RetryConfigModal({
                                     <button
                                         className="bg-indigo-500 text-white active:bg-indigo-600 font-bold uppercase text-sm px-3 py-2 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                                         type="button"
-                                        onClick={() =>
-                                            setRetryConfigShowModal(false)
-                                        }
+                                        onClick={onSaveRetryConfig}
                                     >
                                         Save
                                     </button>

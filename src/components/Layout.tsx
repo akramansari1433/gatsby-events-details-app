@@ -20,7 +20,7 @@ type LayoutProps = {
 export default function Layout({ children }: LayoutProps) {
     const [sidebarOpen, setSidebarOpen] = useState(false);
     const [showCustomers, setShowCustomers] = useState(false);
-    const customers = useContext(CustomerContext);
+    const { customers } = useContext(CustomerContext);
 
     return (
         <>

@@ -1,4 +1,5 @@
-import React, { ChangeEvent, useEffect, useState } from "react";
+import React, { ChangeEvent, useContext, useEffect, useState } from "react";
+import { CustomerContext, CustomerType } from "../context/customer-context";
 import { EndpointType } from "../pages/customers/[id]";
 
 type PropsType = {
@@ -15,6 +16,7 @@ type THeaderType = {
 export default function CustomHeadersModal({
     setCustomHeadersShowModal,
     endpoint,
+    customerId,
 }: PropsType) {
     const emptyHeaderData: THeaderType = {
         key: "",
@@ -22,6 +24,7 @@ export default function CustomHeadersModal({
     };
     const [headers, setHeaders] = useState<THeaderType[]>([emptyHeaderData]);
     const [editMode, setEditMode] = useState(false);
+    const { customers, setCustomers } = useContext(CustomerContext);
 
     const keySetter = (e: ChangeEvent<HTMLInputElement>, i: number) => {
         const tempHeader = [...headers];
@@ -35,8 +38,35 @@ export default function CustomHeadersModal({
         setHeaders(tempHeader);
     };
 
+    const onSaveHeaders = async () => {
+        try {
+            const response: { data: CustomerType; message: string } =
+                await fetch(
+                    `https://workers-middleware.akramansari1433.workers.dev/headers/${customerId}/${endpoint.endpointId}`,
+                    {
+                        method: "POST",
+                        body: JSON.stringify({
+                            headers: headers.filter(
+                                (header: THeaderType) =>
+                                    header.key && header.value
+                            ),
+                        }),
+                    }
+                ).then((res) => res.json());
+            let updatedCustomers = customers.map((customer) => {
+                if (customer.customerId == customerId) {
+                    return (customer = response.data);
+                } else return customer;
+            });
+            setCustomers(updatedCustomers);
+        } catch (error) {
+            console.log("Error: ", error);
+        }
+        setCustomHeadersShowModal(false);
+    };
+
     useEffect(() => {
-        endpoint && setHeaders(endpoint.headers);
+        endpoint.headers.length && setHeaders(endpoint.headers);
     }, []);
 
     useEffect(() => {
@@ -151,9 +181,7 @@ export default function CustomHeadersModal({
                                     <button
                                         className="bg-indigo-500 text-white active:bg-indigo-600 font-bold uppercase text-sm px-3 py-2 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                                         type="button"
-                                        onClick={() =>
-                                            setCustomHeadersShowModal(false)
-                                        }
+                                        onClick={onSaveHeaders}
                                     >
                                         Save
                                     </button>
