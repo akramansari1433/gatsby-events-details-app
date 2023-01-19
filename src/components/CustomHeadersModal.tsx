@@ -83,17 +83,17 @@ export default function CustomHeadersModal({
             <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
                 <div className="relative w-auto my-6 mx-auto max-w-3xl">
                     {/*content*/}
-                    <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
+                    <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-secondary text-main-text outline-none focus:outline-none">
                         {/*header*/}
                         <div className="flex items-center justify-between p-3 border-b border-solid border-slate-200 rounded-t">
                             <h3 className="text-xl font-semibold">
                                 Custom Headers
                             </h3>
                             <button
-                                className="border-0 text-black leading-none font-semibold outline-none focus:outline-none"
+                                className="border-0 leading-none font-semibold outline-none focus:outline-none"
                                 onClick={() => setCustomHeadersShowModal(false)}
                             >
-                                <span className="text-black text-2xl block outline-none focus:outline-none">
+                                <span className="text-accent text-2xl block outline-none focus:outline-none">
                                     ×
                                 </span>
                             </button>
@@ -108,7 +108,7 @@ export default function CustomHeadersModal({
                                             key={i}
                                         >
                                             <input
-                                                className="border-2 my-1 mr-1 rounded-md p-1.5"
+                                                className="border-2 my-1 mr-1 rounded-md p-1.5 text-black"
                                                 type="text"
                                                 value={header.key}
                                                 onChange={(e) =>
@@ -117,7 +117,7 @@ export default function CustomHeadersModal({
                                                 placeholder="Key"
                                             />
                                             <input
-                                                className="border-2 my-1 rounded-md p-1.5"
+                                                className="border-2 my-1 rounded-md p-1.5 text-black"
                                                 type="text"
                                                 value={header.value}
                                                 onChange={(e) =>
@@ -131,7 +131,7 @@ export default function CustomHeadersModal({
                             ) : (
                                 <div className="overflow overflow-x-auto mt-3 rounded-lg">
                                     <table className="table-fixed w-96">
-                                        <thead className="bg-violet-400">
+                                        <thead className="bg-accent">
                                             <tr>
                                                 <th
                                                     scope="col"
@@ -147,14 +147,14 @@ export default function CustomHeadersModal({
                                                 </th>
                                             </tr>
                                         </thead>
-                                        <tbody className="divide-y divide-gray-200 bg-white">
+                                        <tbody className="divide-y divide-gray-200 bg-secondary">
                                             {endpoint.headers.map(
                                                 (header, i) => (
                                                     <tr key={i}>
-                                                        <td className="whitespace-nowrap py-3 px-3 text-sm font-medium text-gray-900">
+                                                        <td className="whitespace-nowrap py-3 px-3 text-sm font-medium">
                                                             {header.key}
                                                         </td>
-                                                        <td className="whitespace-nowrap py-3 px-3 text-sm font-medium text-gray-900">
+                                                        <td className="whitespace-nowrap py-3 px-3 text-sm font-medium">
                                                             {header.value}
                                                         </td>
                                                     </tr>
@@ -179,7 +179,7 @@ export default function CustomHeadersModal({
                                         Close
                                     </button>
                                     <button
-                                        className="bg-indigo-500 text-white active:bg-indigo-600 font-bold uppercase text-sm px-3 py-2 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                                        className="bg-accent hover:bg-accent-secondary font-bold uppercase text-sm px-3 py-2 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                                         type="button"
                                         onClick={onSaveHeaders}
                                     >
@@ -188,7 +188,7 @@ export default function CustomHeadersModal({
                                 </>
                             ) : (
                                 <button
-                                    className="bg-indigo-500 text-white active:bg-indigo-600 font-bold uppercase text-sm px-3 py-2 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                                    className="bg-accent hover:bg-accent-secondary font-bold uppercase text-sm px-3 py-2 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                                     type="button"
                                     onClick={() => setEditMode(true)}
                                 >

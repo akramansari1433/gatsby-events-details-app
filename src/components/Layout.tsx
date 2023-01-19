@@ -9,9 +9,12 @@ import {
     UserGroupIcon,
     ChevronDownIcon,
     ChevronUpIcon,
+    SunIcon,
+    MoonIcon,
 } from "@heroicons/react/24/outline";
 import { Link } from "gatsby";
 import { CustomerContext } from "../context/customer-context";
+import { ThemeContext } from "../context/theme-context";
 
 type LayoutProps = {
     children: React.ReactNode;
@@ -21,10 +24,19 @@ export default function Layout({ children }: LayoutProps) {
     const [sidebarOpen, setSidebarOpen] = useState(false);
     const [showCustomers, setShowCustomers] = useState(false);
     const { customers } = useContext(CustomerContext);
+    const { theme, setTheme } = useContext(ThemeContext);
+
+    const onThemeChange = () => {
+        const currentTheme = theme === "light" ? "dark" : "light";
+        setTheme(currentTheme);
+        window.localStorage.setItem("theme", currentTheme);
+    };
 
     return (
         <>
-            <div>
+            <div
+                className={`theme-${theme} bg-primary text-main-text transition-all duration-300 m-0 p-0 min-h-screen`}
+            >
                 <Transition.Root show={sidebarOpen} as={Fragment}>
                     <Dialog
                         as="div"
@@ -53,7 +65,7 @@ export default function Layout({ children }: LayoutProps) {
                                 leaveFrom="translate-x-0"
                                 leaveTo="-translate-x-full"
                             >
-                                <Dialog.Panel className="relative flex w-full max-w-xs flex-1 flex-col bg-violet-700">
+                                <Dialog.Panel className="relative flex w-full max-w-xs flex-1 flex-col bg-blue-400">
                                     <Transition.Child
                                         as={Fragment}
                                         enter="ease-in-out duration-300"
@@ -75,49 +87,53 @@ export default function Layout({ children }: LayoutProps) {
                                                     Close sidebar
                                                 </span>
                                                 <XMarkIcon
-                                                    className="h-6 w-6 text-white"
+                                                    className="h-6 w-6 "
                                                     aria-hidden="true"
                                                 />
                                             </button>
                                         </div>
                                     </Transition.Child>
                                     <div className="h-0 flex-1 overflow-y-auto pt-5 pb-4">
-                                        <div className="flex flex-shrink-0 items-center px-4">
-                                            <h1 className="text-2xl font-semibold text-white">
+                                        <div className="flex justify-between flex-shrink-0 items-center px-4">
+                                            <h1 className="text-2xl font-semibold">
                                                 Sync Machine
                                             </h1>
+                                            <button
+                                                className="border-2 p-1 rounded-full bg-main-text"
+                                                onClick={onThemeChange}
+                                            >
+                                                {theme === "dark" ? (
+                                                    <SunIcon className="h-5 w-5 text-primary" />
+                                                ) : (
+                                                    <MoonIcon className="h-5 w-5 text-primary" />
+                                                )}
+                                            </button>
                                         </div>
-                                        <nav className="mt-5 space-y-1 px-2">
+                                        <nav className="mt-5 space-y-1 px-2sss">
                                             <Link
-                                                activeStyle={{
-                                                    background:
-                                                        "rgb(91 33 182)",
-                                                }}
-                                                className=" text-white group flex items-center px-2 py-2 text-base font-medium rounded-md"
+                                                activeClassName="bg-accent-secondary"
+                                                className="group flex items-center px-2 py-2 text-base font-medium rounded-md"
                                                 to="/events"
                                             >
                                                 <CalendarDaysIcon
-                                                    className="text-white mr-4 flex-shrink-0 h-6 w-6"
+                                                    className="mr-4 flex-shrink-0 h-6 w-6"
                                                     aria-hidden="true"
                                                 />
                                                 Events
                                             </Link>
                                             <Link
-                                                activeStyle={{
-                                                    background:
-                                                        "rgb(91 33 182)",
-                                                }}
-                                                className=" text-white group flex items-center px-2 py-2 text-base font-medium rounded-md"
+                                                activeClassName="bg-accent-secondary"
+                                                className="group flex items-center px-2 py-2 text-base font-medium rounded-md"
                                                 to="/invocationlog"
                                             >
                                                 <ClipboardDocumentListIcon
-                                                    className="text-white mr-4 flex-shrink-0 h-6 w-6"
+                                                    className="mr-4 flex-shrink-0 h-6 w-6"
                                                     aria-hidden="true"
                                                 />
                                                 Invocation Log
                                             </Link>
                                             <button
-                                                className="hover:bg-violet-800 text-white group flex items-center px-2 py-2 text-sm font-medium rounded-md w-full"
+                                                className="group flex items-center px-2 py-2 text-sm font-medium rounded-md w-full"
                                                 onClick={() =>
                                                     setShowCustomers(
                                                         !showCustomers
@@ -125,18 +141,18 @@ export default function Layout({ children }: LayoutProps) {
                                                 }
                                             >
                                                 <UserGroupIcon
-                                                    className="text-white mr-4 flex-shrink-0 h-6 w-6"
+                                                    className="mr-4 flex-shrink-0 h-6 w-6"
                                                     aria-hidden="true"
                                                 />
                                                 Customers
                                                 {showCustomers ? (
                                                     <ChevronUpIcon
-                                                        className="ml-auto text-white mr-4 flex-shrink-0 h-6 w-6"
+                                                        className="ml-auto mr-4 flex-shrink-0 h-6 w-6"
                                                         aria-hidden="true"
                                                     />
                                                 ) : (
                                                     <ChevronDownIcon
-                                                        className="ml-auto text-white mr-4 flex-shrink-0 h-6 w-6"
+                                                        className="ml-auto mr-4 flex-shrink-0 h-6 w-6"
                                                         aria-hidden="true"
                                                     />
                                                 )}
@@ -152,11 +168,8 @@ export default function Layout({ children }: LayoutProps) {
                                                                 }
                                                             >
                                                                 <Link
-                                                                    activeStyle={{
-                                                                        background:
-                                                                            "rgb(91 33 182)",
-                                                                    }}
-                                                                    className="hover:bg-violet-800 text-white group flex items-center px-2 py-2 text-sm font-medium rounded-md"
+                                                                    activeClassName="bg-accent-secondary"
+                                                                    className="group flex items-center px-2 py-2 text-sm font-medium rounded-md"
                                                                     to={`/customers/${customer.customerId}`}
                                                                 >
                                                                     {
@@ -180,61 +193,67 @@ export default function Layout({ children }: LayoutProps) {
                 </Transition.Root>
 
                 {/* Static sidebar for desktop */}
-                <div className="hidden md:fixed md:inset-y-0 md:flex md:w-64 md:flex-col">
+                <div className="hidden md:fixed md:inset-y-0 md:flex md:w-64 md:flex-col bg-accent">
                     {/* Sidebar component, swap this element with another sidebar if you like */}
-                    <div className="flex min-h-0 flex-1 flex-col border-r border-gray-200 bg-violet-700">
+                    <div className="flex min-h-0 flex-1 flex-col border-r">
                         <div className="flex flex-1 flex-col overflow-y-auto pt-5 pb-4">
-                            <div className="flex flex-shrink-0 items-center px-4">
-                                <h1 className="text-2xl font-semibold text-white">
+                            <div className="flex justify-between flex-shrink-0 items-center px-4">
+                                <h1 className="text-2xl font-semibold">
                                     Sync Machine
                                 </h1>
+                                <button
+                                    className="border-2 p-1 rounded-full bg-main-text"
+                                    onClick={onThemeChange}
+                                >
+                                    {theme === "dark" ? (
+                                        <SunIcon className="h-5 w-5 text-primary" />
+                                    ) : (
+                                        <MoonIcon className="h-5 w-5 text-primary" />
+                                    )}
+                                </button>
                             </div>
-                            <nav className="mt-5 flex-1 space-y-1 bg-violet-700 px-2">
+                            <nav className="mt-5 flex-1 space-y-1 px-2">
                                 <Link
-                                    activeStyle={{
-                                        background: "rgb(91 33 182)",
-                                    }}
-                                    className="hover:bg-violet-800 text-white group flex items-center px-2 py-2 text-sm font-medium rounded-md"
+                                    activeClassName="bg-accent-secondary"
+                                    className="group flex items-center px-2 py-2 text-sm font-medium rounded-md"
                                     to="/events"
                                 >
                                     <CalendarDaysIcon
-                                        className="text-white mr-4 flex-shrink-0 h-6 w-6"
+                                        className="mr-4 flex-shrink-0 h-6 w-6"
                                         aria-hidden="true"
                                     />
                                     Events
                                 </Link>
                                 <Link
-                                    activeStyle={{
-                                        background: "rgb(91 33 182)",
-                                    }}
-                                    className="hover:bg-violet-800 text-white group flex items-center px-2 py-2 text-sm font-medium rounded-md"
+                                    activeClassName="bg-accent-secondary"
+                                    className="group flex items-center px-2 py-2 text-sm font-medium rounded-md"
                                     to="/invocationlog"
                                 >
                                     <ClipboardDocumentListIcon
-                                        className="text-white mr-4 flex-shrink-0 h-6 w-6"
+                                        className="mr-4 flex-shrink-0 h-6 w-6"
                                         aria-hidden="true"
                                     />
                                     Invocation Log
                                 </Link>
                                 <button
-                                    className="hover:bg-violet-800 text-white group flex items-center px-2 py-2 text-sm font-medium rounded-md w-full"
+                                    className="group flex items-center px-2 py-2 text-sm font-medium rounded-md w-full"
                                     onClick={() =>
                                         setShowCustomers(!showCustomers)
                                     }
                                 >
                                     <UserGroupIcon
-                                        className="text-white mr-4 flex-shrink-0 h-6 w-6"
+                                        className="mr-4 flex-shrink-0 h-6 w-6"
                                         aria-hidden="true"
                                     />
                                     Customers
                                     {showCustomers ? (
                                         <ChevronUpIcon
-                                            className="ml-auto text-white mr-4 flex-shrink-0 h-6 w-6"
+                                            className="ml-auto mr-4 flex-shrink-0 h-6 w-6"
                                             aria-hidden="true"
                                         />
                                     ) : (
                                         <ChevronDownIcon
-                                            className="ml-auto text-white mr-4 flex-shrink-0 h-6 w-6"
+                                            className="ml-auto mr-4 flex-shrink-0 h-6 w-6"
                                             aria-hidden="true"
                                         />
                                     )}
@@ -247,11 +266,8 @@ export default function Layout({ children }: LayoutProps) {
                                                 key={customer.customerId}
                                             >
                                                 <Link
-                                                    activeStyle={{
-                                                        background:
-                                                            "rgb(91 33 182)",
-                                                    }}
-                                                    className="hover:bg-violet-800 text-white group flex items-center px-2 py-2 text-sm font-medium rounded-md"
+                                                    activeClassName="bg-accent-secondary"
+                                                    className="group flex items-center px-2 py-2 text-sm font-medium rounded-md"
                                                     to={`/customers/${customer.customerId}`}
                                                 >
                                                     {customer.customerName}
@@ -265,7 +281,7 @@ export default function Layout({ children }: LayoutProps) {
                     </div>
                 </div>
                 <div className="flex flex-1 flex-col md:pl-64">
-                    <div className="sticky top-0 z-10 bg-gray-100 pl-1 pt-1 sm:pl-3 sm:pt-3 md:hidden">
+                    <div className="sticky top-0 z-10  pl-1 pt-1 sm:pl-3 sm:pt-3 md:hidden">
                         <button
                             type="button"
                             className="-ml-0.5 -mt-0.5 inline-flex h-12 w-12 items-center justify-center rounded-md text-gray-500 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500"

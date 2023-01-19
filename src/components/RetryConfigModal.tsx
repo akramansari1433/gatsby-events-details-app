@@ -66,17 +66,17 @@ export default function RetryConfigModal({
             <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
                 <div className="relative w-auto my-6 mx-auto max-w-3xl">
                     {/*content*/}
-                    <div className="w-96 border-0 rounded-lg shadow-lg relative flex flex-col bg-white outline-none focus:outline-none">
+                    <div className="w-96 border-0 rounded-lg shadow-lg relative flex flex-col bg-secondary text-main-text outline-none focus:outline-none">
                         {/*header*/}
                         <div className="flex items-center justify-between p-3 border-b border-solid border-slate-200 rounded-t">
                             <h3 className="text-xl font-semibold">
                                 Retry Config
                             </h3>
                             <button
-                                className="border-0 text-black leading-none font-semibold outline-none focus:outline-none"
+                                className="border-0 leading-none font-semibold outline-none focus:outline-none"
                                 onClick={() => setRetryConfigShowModal(false)}
                             >
-                                <span className=" text-black text-2xl block outline-none focus:outline-none">
+                                <span className=" text-accent text-2xl block outline-none focus:outline-none">
                                     ×
                                 </span>
                             </button>
@@ -91,7 +91,7 @@ export default function RetryConfigModal({
                                     <input
                                         id="numberOfRetries"
                                         type="number"
-                                        className="border-2  rounded-md p-1.5"
+                                        className="border-2 rounded-md p-1.5 text-black"
                                         value={retryConfig.numberOfRetries}
                                         onChange={(e) =>
                                             retryConfigChangeHandler(e)
@@ -109,7 +109,7 @@ export default function RetryConfigModal({
                                     <input
                                         id="retryInterval"
                                         type="number"
-                                        className="border-2  rounded-md p-1.5"
+                                        className="border-2 rounded-md p-1.5 text-black"
                                         value={retryConfig.retryInterval}
                                         onChange={(e) =>
                                             retryConfigChangeHandler(e)
@@ -125,7 +125,7 @@ export default function RetryConfigModal({
                                     <input
                                         id="timeout"
                                         type="number"
-                                        className="border-2  rounded-md p-1.5"
+                                        className="border-2 rounded-md p-1.5 text-black"
                                         value={retryConfig.timeout}
                                         onChange={(e) =>
                                             retryConfigChangeHandler(e)
@@ -151,7 +151,7 @@ export default function RetryConfigModal({
                                         Close
                                     </button>
                                     <button
-                                        className="bg-indigo-500 text-white active:bg-indigo-600 font-bold uppercase text-sm px-3 py-2 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                                        className="bg-accent hover:bg-accent-secondary font-bold uppercase text-sm px-3 py-2 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                                         type="button"
                                         onClick={onSaveRetryConfig}
                                     >
@@ -160,7 +160,7 @@ export default function RetryConfigModal({
                                 </>
                             ) : (
                                 <button
-                                    className="bg-indigo-500 text-white active:bg-indigo-600 font-bold uppercase text-sm px-3 py-2 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                                    className="bg-accent hover:bg-accent-secondary font-bold uppercase text-sm px-3 py-2 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                                     type="button"
                                     onClick={() => setEditMode(true)}
                                 >

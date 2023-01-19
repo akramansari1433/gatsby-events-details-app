@@ -1,7 +1,6 @@
 import { HeadFC } from "gatsby";
 import React, { useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
-import Layout from "../../../components/Layout";
 
 export type RequestType = {
     requestId: string;
@@ -93,7 +92,7 @@ export default function EventDetails(props: any) {
                 </div>
                 <button
                     onClick={onResendRequest}
-                    className="rounded-md border bg-violet-600 py-2 px-4 text-sm font-medium text-white hover:bg-violet-700 focus:outline-none"
+                    className="rounded-md border bg-accent py-2 px-4 text-sm font-medium text-main-text hover:bg-accent-secondary focus:outline-none"
                 >
                     Resend Request
                     {/* {isLoading ? 'Resending...' : 'Resend Request'} */}

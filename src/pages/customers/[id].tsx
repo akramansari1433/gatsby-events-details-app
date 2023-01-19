@@ -31,40 +31,40 @@ export default function EventList(props: any) {
                 <div className="mt-2 flex flex-col">
                     <div className="overflow overflow-x-auto shadow md:rounded-lg">
                         <table className="min-w-full">
-                            <thead className="bg-violet-400">
+                            <thead className="bg-accent">
                                 <tr>
                                     <th
                                         scope="col"
-                                        className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6"
+                                        className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold sm:pl-6"
                                     >
                                         Endpoint Id
                                     </th>
                                     <th
                                         scope="col"
-                                        className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6"
+                                        className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold sm:pl-6"
                                     >
                                         Endpoint
                                     </th>
                                     <th
                                         scope="col"
-                                        className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6"
+                                        className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold sm:pl-6"
                                     >
                                         Modify Settings
                                     </th>
                                 </tr>
                             </thead>
-                            <tbody className="divide-y divide-gray-200 bg-white">
+                            <tbody className="divide-y divide-gray-200 bg-secondary">
                                 {currentCustomer?.endpoints.map((endpoint) => (
                                     <tr key={endpoint.endpointId}>
-                                        <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">
+                                        <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium sm:pl-6">
                                             {endpoint.endpointId}
                                         </td>
-                                        <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">
+                                        <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium sm:pl-6">
                                             {endpoint.endpoint}
                                         </td>
-                                        <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">
+                                        <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium sm:pl-6">
                                             <button
-                                                className="text-indigo-600"
+                                                className="text-accent"
                                                 onClick={() => {
                                                     setCustomHeadersShowModal(
                                                         true
@@ -77,7 +77,7 @@ export default function EventList(props: any) {
                                                 Custom Headers
                                             </button>
                                             <button
-                                                className="ml-5 text-indigo-600"
+                                                className="ml-5 text-accent"
                                                 onClick={() => {
                                                     setRetryConfigShowModal(
                                                         true

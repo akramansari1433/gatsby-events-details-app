@@ -1,3 +1,20 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.theme-light {
+    --primary: #f8f8f8;
+    --secondary: #dbe1e8;
+    --text-main: #0d0106;
+    --text-secondary: #454e56;
+    --accent: #5d9ec4;
+    --accent-secondary: #f0f8ff;
+}
+.theme-dark {
+    --primary: #12181b;
+    --secondary: #2a2e35;
+    --text-main: #eaeaea;
+    --text-secondary: #b8b8b9;
+    --accent: #046daa;
+    --accent-secondary: #03a2ff;
+}

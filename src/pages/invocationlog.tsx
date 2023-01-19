@@ -47,29 +47,29 @@ export default function InvocationLog() {
                     <div className="mt-2 flex flex-col">
                         <div className="overflow overflow-x-auto shadow md:rounded-lg">
                             <table className="min-w-full">
-                                <thead className="bg-violet-400">
+                                <thead className="bg-accent">
                                     <tr>
                                         <th
                                             scope="col"
-                                            className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6"
+                                            className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold sm:pl-6"
                                         >
                                             Request Id
                                         </th>
                                         <th
                                             scope="col"
-                                            className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6"
+                                            className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold sm:pl-6"
                                         >
                                             Event Id
                                         </th>
                                         <th
                                             scope="col"
-                                            className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6"
+                                            className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold sm:pl-6"
                                         >
                                             Status
                                         </th>
                                         <th
                                             scope="col"
-                                            className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6"
+                                            className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold sm:pl-6"
                                         >
                                             Created At
                                         </th>
@@ -83,10 +83,10 @@ export default function InvocationLog() {
                                         </th>
                                     </tr>
                                 </thead>
-                                <tbody className="divide-y divide-gray-200 bg-white">
+                                <tbody className="divide-y divide-gray-200 bg-secondary">
                                     {eventsList?.map((event, i) => (
                                         <tr key={i}>
-                                            <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">
+                                            <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium sm:pl-6">
                                                 {event.requests.map(
                                                     (req, i) => (
                                                         <p
@@ -98,7 +98,7 @@ export default function InvocationLog() {
                                                     )
                                                 )}
                                             </td>
-                                            <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">
+                                            <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium sm:pl-6">
                                                 {event.requests.map(
                                                     (req, i) => (
                                                         <p
@@ -110,7 +110,7 @@ export default function InvocationLog() {
                                                     )
                                                 )}
                                             </td>
-                                            <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">
+                                            <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium sm:pl-6">
                                                 {event.requests.map(
                                                     (req, i) => (
                                                         <p
@@ -125,7 +125,7 @@ export default function InvocationLog() {
                                                     )
                                                 )}
                                             </td>
-                                            <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">
+                                            <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium sm:pl-6">
                                                 {event.requests.map(
                                                     (req, i) => (
                                                         <p
@@ -145,7 +145,7 @@ export default function InvocationLog() {
                                                         <Link
                                                             key={i}
                                                             to={`/events/${event.eventId}/${req.requestId}`}
-                                                            className="text-indigo-600 hover:text-indigo-900 py-1"
+                                                            className="text-accent py-1"
                                                         >
                                                             View Details
                                                         </Link>
