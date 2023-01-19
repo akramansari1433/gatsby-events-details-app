@@ -1,5 +1,5 @@
 import React, { ChangeEvent, useContext, useEffect, useState } from "react";
-import { CustomerContext, CustomerType } from "../context/customer-context";
+import { CustomerContext, CustomerType } from "../contexts/customer-context";
 import { EndpointType } from "../pages/customers/[id]";
 
 type PropsType = {

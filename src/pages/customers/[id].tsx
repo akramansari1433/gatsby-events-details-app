@@ -1,7 +1,7 @@
 import React, { useContext, useState } from "react";
 import CustomHeadersModal from "../../components/CustomHeadersModal";
 import RetryConfigModal from "../../components/RetryConfigModal";
-import { CustomerContext } from "../../context/customer-context";
+import { CustomerContext } from "../../contexts/customer-context";
 
 export type EndpointType = {
     endpointId: string;

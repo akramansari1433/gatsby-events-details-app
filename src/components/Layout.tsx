@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { Fragment, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import {
@@ -13,8 +13,8 @@ import {
     MoonIcon,
 } from "@heroicons/react/24/outline";
 import { Link } from "gatsby";
-import { CustomerContext } from "../context/customer-context";
-import { ThemeContext } from "../context/theme-context";
+import { CustomerContext } from "../contexts/customer-context";
+import { ThemeContext } from "../contexts/theme-context";
 
 type LayoutProps = {
     children: React.ReactNode;

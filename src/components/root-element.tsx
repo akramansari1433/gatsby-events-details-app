@@ -1,8 +1,8 @@
 import React, { ReactElement } from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import Layout from "./Layout";
-import { CustomerProvider } from "../context/customer-context";
-import { ThemeProvider } from "../context/theme-context";
+import { CustomerProvider } from "../contexts/customer-context";
+import { ThemeProvider } from "../contexts/theme-context";
 
 const queryClient = new QueryClient();
 
