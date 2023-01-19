@@ -18,7 +18,7 @@ export default function EventList() {
     const [expandState, setExpandState] = useState<any>({});
     const [loading, setLoading] = useState<boolean>(false);
 
-    const handleEpandRow = (eventId: string) => {
+    const handleExpandRow = (eventId: string) => {
         const currentExpandedRows = expandedRows;
         const isRowExpanded = currentExpandedRows.includes(eventId);
 
@@ -119,7 +119,7 @@ export default function EventList() {
                                                     <button
                                                         key={event.eventId}
                                                         onClick={(e) =>
-                                                            handleEpandRow(
+                                                            handleExpandRow(
                                                                 event.eventId
                                                             )
                                                         }
