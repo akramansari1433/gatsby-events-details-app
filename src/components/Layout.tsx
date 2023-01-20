@@ -11,6 +11,7 @@ import {
     ChevronUpIcon,
     SunIcon,
     MoonIcon,
+    PlusCircleIcon,
 } from "@heroicons/react/24/outline";
 import { Link } from "gatsby";
 import { CustomerContext } from "../contexts/customer-context";
@@ -174,6 +175,16 @@ export default function Layout({ children }: LayoutProps) {
                                                         </Link>
                                                     </li>
                                                 ))}
+                                                <li className="my-1">
+                                                    <Link
+                                                        activeClassName="bg-accent-secondary"
+                                                        className="group flex items-center px-2 py-2 text-sm font-medium rounded-md"
+                                                        to={`/add-customer`}
+                                                    >
+                                                        <PlusCircleIcon className="h-5 w-5 mr-1" />
+                                                        Add customer
+                                                    </Link>
+                                                </li>
                                             </ul>
                                         )}
                                     </nav>
@@ -267,6 +278,16 @@ export default function Layout({ children }: LayoutProps) {
                                             </Link>
                                         </li>
                                     ))}
+                                    <li className="my-1">
+                                        <Link
+                                            activeClassName="bg-accent-secondary"
+                                            className="group flex items-center px-2 py-2 text-sm font-medium rounded-md"
+                                            to={`/add-customer`}
+                                        >
+                                            <PlusCircleIcon className="h-5 w-5 mr-1" />
+                                            Add customer
+                                        </Link>
+                                    </li>
                                 </ul>
                             )}
                         </nav>

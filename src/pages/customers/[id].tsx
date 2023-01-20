@@ -1,4 +1,6 @@
+import { PlusCircleIcon } from "@heroicons/react/24/outline";
 import React, { useContext, useState } from "react";
+import CreateEndpointModal from "../../components/CreateEnpointModal";
 import CustomHeadersModal from "../../components/CustomHeadersModal";
 import RetryConfigModal from "../../components/RetryConfigModal";
 import { CustomerContext } from "../../contexts/customer-context";
@@ -17,6 +19,8 @@ export type EndpointType = {
 export default function EventList(props: any) {
     const [showCustomHeadersModal, setCustomHeadersShowModal] = useState(false);
     const [showRetryConfigModal, setRetryConfigShowModal] = useState(false);
+    const [showCreateEndpointModal, setShowCreateEndpoitModal] =
+        useState(false);
     const [currentEndpoint, setCurrentEndpoint] = useState<EndpointType>();
 
     const { customers } = useContext(CustomerContext);
@@ -28,6 +32,17 @@ export default function EventList(props: any) {
         <>
             <div className="mt-3">
                 <h1 className="font-semibold text-xl text-center">Enpoints</h1>
+                <div className="flex justify-end">
+                    <button
+                        className="flex text-accent px-2 py-2 text-sm font-medium rounded-md"
+                        onClick={() => {
+                            setShowCreateEndpoitModal(true);
+                        }}
+                    >
+                        <PlusCircleIcon className="h-5 w-5 mr-1" />
+                        Add Endpoint
+                    </button>
+                </div>
                 <div className="mt-2 flex flex-col">
                     <div className="overflow overflow-x-auto shadow md:rounded-lg">
                         <table className="min-w-full">
@@ -109,6 +124,14 @@ export default function EventList(props: any) {
                                 endpoint={currentEndpoint!}
                                 setRetryConfigShowModal={
                                     setRetryConfigShowModal
+                                }
+                            />
+                        ) : null}
+                        {showCreateEndpointModal ? (
+                            <CreateEndpointModal
+                                customerId={currentCustomer?.customerId!}
+                                setShowCreateEndpoitModal={
+                                    setShowCreateEndpoitModal
                                 }
                             />
                         ) : null}
