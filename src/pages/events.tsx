@@ -36,11 +36,12 @@ export default function EventList() {
         const res = await fetch(
             "https://workers-middleware.akramansari1433.workers.dev/events"
         ).then((response) => response.json());
-        const data = await res;
-        if (data) {
+
+        if (!res.error) {
             setLoading(false);
-            setEventsList(data);
+            setEventsList(res);
         }
+        setLoading(false);
 
         // console.log(data);
     };

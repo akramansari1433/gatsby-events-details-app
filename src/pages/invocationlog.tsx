@@ -23,10 +23,12 @@ export default function InvocationLog() {
             "https://workers-middleware.akramansari1433.workers.dev/events"
         ).then((response) => response.json());
         const data = await res;
-        if (data) {
+
+        if (!data.error) {
             setLoading(false);
             setEventsList(data);
         }
+        setLoading(false);
 
         // console.log(data);
     };
@@ -146,6 +148,10 @@ export default function InvocationLog() {
                                                             key={i}
                                                             to={`/events/${event.eventId}/${req.requestId}`}
                                                             className="text-accent py-1"
+                                                            state={{
+                                                                customerId: event.customerId,
+                                                                endpointId: event.requests[i].endpointId
+                                                            }}
                                                         >
                                                             View Details
                                                         </Link>

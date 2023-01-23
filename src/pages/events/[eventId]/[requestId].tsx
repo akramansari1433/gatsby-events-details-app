@@ -1,10 +1,11 @@
-import { HeadFC } from "gatsby";
+import { HeadFC, navigate } from "gatsby";
 import React, { useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 
 export type RequestType = {
     requestId: string;
     eventId: string;
+    endpointId: string;
     request: {
         endpoint: string;
         method: string;
@@ -21,8 +22,14 @@ export type RequestType = {
 
 export default function EventDetails(props: any) {
     const [requestDetail, setRequestDetail] = useState<RequestType>();
-    const [includeCustomerHeaders, setIncludeCustomerHeaders] =
-        useState<boolean>(true);
+    const [includeCustomerHeaders, setIncludeCustomerHeaders] = useState<boolean>(true);
+    const [customerId, setCustomerId] = useState<string>('');
+    const [endpointId, setEndpointId] = useState<string>('');
+
+    useEffect(() => {
+        setCustomerId(props.location.state.customerId)
+        setEndpointId(props.location.state.endpointId)
+    }, [props]);
 
     const getEvents = async () => {
         const res = await fetch(
@@ -30,7 +37,6 @@ export default function EventDetails(props: any) {
         ).then((response) => response.json());
         const data = await res;
         setRequestDetail(data);
-        // console.log(data);
         return data;
     };
 
@@ -41,28 +47,34 @@ export default function EventDetails(props: any) {
             customHeader: includeCustomerHeaders,
         };
         const res = await fetch(
-            `https://workers-middleware.akramansari1433.workers.dev/request/resend`,
+            `https://workers-middleware.akramansari1433.workers.dev/request/resend/${customerId}/${endpointId}`,
             {
                 method: "POST",
                 body: JSON.stringify(payload),
             }
         ).then((response) => response.json());
-        const data = await res;
-        setRequestDetail(data);
-        // console.log(data);
-        return data;
+        
+        if(!res.error) {
+            navigate(`/events/${res.eventId}/${res.requestId}`, {
+                state: {
+                    customerId,
+                    endpointId
+                }
+            })
+        }
+
+        setRequestDetail(res);
+        return res;
     };
 
     useEffect(() => {
         getEvents();
     }, []);
-
-    const { isLoading, data, refetch } = useQuery(["response"], resendRequest, {
+    
+    const { refetch, isRefetching } = useQuery(["response"], resendRequest, {
         enabled: false,
     });
-
-    console.log("onResendRequest", isLoading, data);
-
+    
     const onResendRequest = () => {
         refetch();
     };
@@ -94,8 +106,7 @@ export default function EventDetails(props: any) {
                     onClick={onResendRequest}
                     className="rounded-md border bg-accent py-2 px-4 text-sm font-medium text-main-text hover:bg-accent-secondary focus:outline-none"
                 >
-                    Resend Request
-                    {/* {isLoading ? 'Resending...' : 'Resend Request'} */}
+                    {isRefetching ? 'Resending...' : 'Resend Request'}
                 </button>
             </div>
             <label htmlFor="include-headers"></label>
