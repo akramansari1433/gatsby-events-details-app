@@ -22,7 +22,8 @@
     "gatsby": "^5.3.3",
     "gatsby-plugin-minify-html": "^1.0.4",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "react-hook-form": "^7.42.1"
   },
   "devDependencies": {
     "@types/node": "^18.11.18",
