@@ -35,7 +35,7 @@ export default function Layout({ children }: LayoutProps) {
 
     return (
         <div
-            className={`theme-${theme} bg-primary text-main-text transition-all duration-300 m-0 p-0 min-h-screen`}
+            className={`theme-${theme} bg-primary text-main-text m-0 p-0 min-h-screen`}
         >
             <Transition.Root show={sidebarOpen} as={Fragment}>
                 <Dialog
