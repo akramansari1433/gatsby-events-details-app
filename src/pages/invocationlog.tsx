@@ -19,7 +19,7 @@ export default function InvocationLog() {
 
     const getEvents = async () => {
         setLoading(true);
-        const res = await fetch(
+        const res: any = await fetch(
             "https://workers-middleware.akramansari1433.workers.dev/events"
         ).then((response) => response.json());
         const data = await res;

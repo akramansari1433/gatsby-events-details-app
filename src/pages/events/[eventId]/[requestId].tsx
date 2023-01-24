@@ -32,7 +32,7 @@ export default function EventDetails(props: any) {
     }, [props]);
 
     const getEvents = async () => {
-        const res = await fetch(
+        const res: RequestType = await fetch(
             `https://workers-middleware.akramansari1433.workers.dev/events/${props.params.eventId}/${props.params.requestId}`
         ).then((response) => response.json());
         const data = await res;
@@ -46,7 +46,7 @@ export default function EventDetails(props: any) {
             requestId: requestDetail?.requestId,
             customHeader: includeCustomerHeaders,
         };
-        const res = await fetch(
+        const res: any = await fetch(
             `https://workers-middleware.akramansari1433.workers.dev/request/resend/${customerId}/${endpointId}`,
             {
                 method: "POST",
