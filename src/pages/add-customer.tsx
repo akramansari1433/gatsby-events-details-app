@@ -37,7 +37,7 @@ const emptyCustomer: NewCustomerType = {
 
 export default function AddCustomer() {
 
-    const { control, watch, register, handleSubmit } = useForm<NewCustomerType>({
+    const { control, watch, register, handleSubmit, reset } = useForm<NewCustomerType>({
         defaultValues: emptyCustomer
     })
 
@@ -81,6 +81,7 @@ export default function AddCustomer() {
 
             if (response) {
                 setCustomers([...customers, response.customerData]);
+                reset();
                 alert(response.message);
             }
         } catch (error) {
