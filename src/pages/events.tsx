@@ -32,18 +32,21 @@ export default function EventList() {
     };
 
     const getEvents = async () => {
-        setLoading(true);
-        const res = await fetch(
-            "https://workers-middleware.akramansari1433.workers.dev/events"
-        ).then((response) => response.json());
-
-        if (!res.error) {
+        try {
+            setLoading(true);
+            const res: any = await fetch(
+                "https://workers-middleware.akramansari1433.workers.dev/events"
+            ).then((response) => response.json());
+    
+            if (!res.error) {
+                setLoading(false);
+                setEventsList(res);
+            }
             setLoading(false);
-            setEventsList(res);
+        } catch (error) {
+            setLoading(false);
+            console.log(error)
         }
-        setLoading(false);
-
-        // console.log(data);
     };
 
     useEffect(() => {

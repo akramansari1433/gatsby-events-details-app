@@ -32,12 +32,16 @@ export default function EventDetails(props: any) {
     }, [props]);
 
     const getEvents = async () => {
-        const res: RequestType = await fetch(
-            `https://workers-middleware.akramansari1433.workers.dev/events/${props.params.eventId}/${props.params.requestId}`
-        ).then((response) => response.json());
-        const data = await res;
-        setRequestDetail(data);
-        return data;
+        try {
+            const res: RequestType = await fetch(
+                `https://workers-middleware.akramansari1433.workers.dev/events/${props.params.eventId}/${props.params.requestId}`
+            ).then((response) => response.json());
+            const data = await res;
+            setRequestDetail(data);
+            return data;
+        } catch (error) {
+            console.log(error)
+        }
     };
 
     const resendRequest = async () => {

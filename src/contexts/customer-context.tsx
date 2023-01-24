@@ -30,10 +30,14 @@ export const CustomerProvider = ({ children }: { children: ReactElement }) => {
     const [customers, setCustomers] = useState<CustomerType[]>([]);
 
     const getCustomers = async () => {
-        const response: CustomerType[] = await fetch(
-            "https://workers-middleware.akramansari1433.workers.dev/customers"
-        ).then((res) => res.json());
-        if (response) setCustomers(response);
+        try {
+            const response: CustomerType[] = await fetch(
+                "https://workers-middleware.akramansari1433.workers.dev/customers"
+            ).then((res) => res.json());
+            if (response) setCustomers(response);
+        } catch (error) {
+            console.log(error);
+        }
     };
 
     useEffect(() => {

@@ -18,17 +18,22 @@ export default function InvocationLog() {
     const [loading, setLoading] = useState<boolean>(false);
 
     const getEvents = async () => {
-        setLoading(true);
-        const res: any = await fetch(
-            "https://workers-middleware.akramansari1433.workers.dev/events"
-        ).then((response) => response.json());
-        const data = await res;
-
-        if (!data.error) {
+        try {
+            setLoading(true);
+            const res: any = await fetch(
+                "https://workers-middleware.akramansari1433.workers.dev/events"
+            ).then((response) => response.json());
+            const data = await res;
+    
+            if (!data.error) {
+                setLoading(false);
+                setEventsList(data);
+            }
             setLoading(false);
-            setEventsList(data);
+        } catch (error) {
+            setLoading(false);
+            console.log(error)
         }
-        setLoading(false);
 
         // console.log(data);
     };
