@@ -1,6 +1,5 @@
 import { Link } from "gatsby";
 import React, { useEffect, useState } from "react";
-import Layout from "../components/Layout";
 import { dateTimeFormatter } from "../utils/helper";
 import InvocationLogSkeleton from "../utils/InvocationLogSkeleton";
 import { RequestType } from "./events/[eventId]/[requestId]";
