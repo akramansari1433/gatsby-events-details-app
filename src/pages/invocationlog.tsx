@@ -24,7 +24,7 @@ export default function InvocationLog() {
                 "https://workers-middleware.akramansari1433.workers.dev/events"
             ).then((response) => response.json());
             const data = await res;
-    
+
             if (!data.error) {
                 setLoading(false);
                 setEventsList(data);
@@ -32,10 +32,8 @@ export default function InvocationLog() {
             setLoading(false);
         } catch (error) {
             setLoading(false);
-            console.log(error)
+            console.log(error);
         }
-
-        // console.log(data);
     };
 
     useEffect(() => {
@@ -154,8 +152,14 @@ export default function InvocationLog() {
                                                             to={`/events/${event.eventId}/${req.requestId}`}
                                                             className="text-accent py-1"
                                                             state={{
-                                                                customerId: event.customerId,
-                                                                endpointId: event.requests[i].endpointId
+                                                                customerId:
+                                                                    event.customerId,
+                                                                endpointId:
+                                                                    event
+                                                                        .requests[
+                                                                        i
+                                                                    ]
+                                                                        .endpointId,
                                                             }}
                                                         >
                                                             View Details
