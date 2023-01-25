@@ -3,8 +3,9 @@ import { RequestType } from "./events/[eventId]/[requestId]";
 import { ChevronDownIcon, ChevronUpIcon } from "@heroicons/react/24/outline";
 import EventsSkeleton from "../utils/EventsSkeleton";
 import { dateTimeFormatter } from "../utils/helper";
+import RequestsTable from "../components/RequestsTable";
 
-type EventType = {
+export type EventType = {
     eventId: string;
     customerId: string;
     requests: RequestType[];
@@ -37,7 +38,7 @@ export default function EventList() {
             const res: any = await fetch(
                 "https://workers-middleware.akramansari1433.workers.dev/events"
             ).then((response) => response.json());
-    
+
             if (!res.error) {
                 setLoading(false);
                 setEventsList(res);
@@ -45,7 +46,7 @@ export default function EventList() {
             setLoading(false);
         } catch (error) {
             setLoading(false);
-            console.log(error)
+            console.log(error);
         }
     };
 
@@ -85,12 +86,6 @@ export default function EventList() {
                                         >
                                             Updated At
                                         </th>
-                                        {/* <th
-                                        scope="col"
-                                        className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6"
-                                    >
-                                        Tries
-                                    </th> */}
                                         <th
                                             scope="col"
                                             className="relative py-3.5 pl-3 pr-4 sm:pr-6"
@@ -104,7 +99,13 @@ export default function EventList() {
                                 <tbody className="divide-y divide-gray-200 bg-secondary">
                                     {eventsList?.map((event, i) => (
                                         <React.Fragment key={i}>
-                                            <tr>
+                                            <tr
+                                                onClick={() =>
+                                                    handleExpandRow(
+                                                        event.eventId
+                                                    )
+                                                }
+                                            >
                                                 <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium sm:pl-6">
                                                     {event.customerId}
                                                 </td>
@@ -116,9 +117,6 @@ export default function EventList() {
                                                         event.updatedAt
                                                     )}
                                                 </td>
-                                                {/* <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">
-                                                {event.tries}
-                                            </td> */}
                                                 <td className=" flex flex-col whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
                                                     <button
                                                         key={event.eventId}
@@ -143,91 +141,13 @@ export default function EventList() {
                                                     event.eventId
                                                 ) ? (
                                                     <tr>
-                                                        <td colSpan={6}>
+                                                        <td colSpan={12}>
                                                             <div className="flex justify-center my-3 shadow">
-                                                                <table>
-                                                                    <thead className="bg-accent-secondary">
-                                                                        <tr>
-                                                                            <th
-                                                                                scope="col"
-                                                                                className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold sm:pl-6"
-                                                                            >
-                                                                                Event
-                                                                                Id
-                                                                            </th>
-                                                                            <th
-                                                                                scope="col"
-                                                                                className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold sm:pl-6"
-                                                                            >
-                                                                                Request
-                                                                                Id
-                                                                            </th>
-                                                                            <th
-                                                                                scope="col"
-                                                                                className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold sm:pl-6"
-                                                                            >
-                                                                                Created
-                                                                                At
-                                                                            </th>
-                                                                            <th
-                                                                                scope="col"
-                                                                                className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold sm:pl-6"
-                                                                            >
-                                                                                Tries
-                                                                            </th>
-                                                                            <th
-                                                                                scope="col"
-                                                                                className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold sm:pl-6"
-                                                                            >
-                                                                                Status
-                                                                            </th>
-                                                                        </tr>
-                                                                    </thead>
-                                                                    <tbody>
-                                                                        {event.requests.map(
-                                                                            (
-                                                                                req,
-                                                                                i
-                                                                            ) => (
-                                                                                <tr
-                                                                                    key={
-                                                                                        i
-                                                                                    }
-                                                                                >
-                                                                                    <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium sm:pl-6">
-                                                                                        {
-                                                                                            req.eventId
-                                                                                        }
-                                                                                    </td>
-                                                                                    <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium sm:pl-6">
-                                                                                        {
-                                                                                            req.requestId
-                                                                                        }
-                                                                                    </td>
-                                                                                    <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium sm:pl-6">
-                                                                                        {dateTimeFormatter(
-                                                                                            req.createdAt
-                                                                                        )}
-                                                                                    </td>
-                                                                                    <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium sm:pl-6">
-                                                                                        {
-                                                                                            req
-                                                                                                .request
-                                                                                                .tries
-                                                                                        }
-                                                                                    </td>
-                                                                                    <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium sm:pl-6">
-                                                                                        {
-                                                                                            req
-                                                                                                .response
-                                                                                                .status
-                                                                                        }
-                                                                                    </td>
-                                                                                </tr>
-                                                                            )
-                                                                        )}
-                                                                    </tbody>
-                                                                </table>
+                                                                <RequestsTable
+                                                                    event={
+                                                                        event
+                                                                    }
+                                                                />
                                                             </div>
                                                         </td>
                                                     </tr>
