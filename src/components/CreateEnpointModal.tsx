@@ -1,14 +1,82 @@
-import React from "react";
+import { PlusCircleIcon } from "@heroicons/react/24/outline";
+import React, { useContext } from "react";
+import { useFieldArray, useForm } from "react-hook-form";
+import { CustomerContext, CustomerType } from "../contexts/customer-context";
 
 type PropsType = {
     customerId: string;
     setShowCreateEndpoitModal: (value: boolean) => void;
 };
 
+interface ObjectKeyString {
+    [key: string]: any;
+}
+
+type EndpointType = {
+    endpoint: string;
+    headers: ObjectKeyString[];
+    retryConfig: ObjectKeyString;
+};
+
 export default function CreateEndpointModal({
     setShowCreateEndpoitModal,
     customerId,
 }: PropsType) {
+    const emptyEndpoint = {
+        endpoint: "",
+        headers: [{ key: "", value: "" }],
+        retryConfig: {
+            retryInterval: 0,
+            timeout: 0,
+            numberOfRetries: 0,
+        },
+    };
+
+    const { customers, setCustomers } = useContext(CustomerContext);
+
+    const { control, watch, register, handleSubmit, reset } =
+        useForm<EndpointType>({
+            defaultValues: emptyEndpoint,
+        });
+
+    const { append } = useFieldArray({
+        control,
+        name: "headers",
+    });
+
+    const addNewHeader = () => {
+        append({ key: "", value: "" });
+    };
+
+    const submitHandler = async (data: EndpointType) => {
+        try {
+            const response: { customerData: CustomerType; message: string } =
+                await fetch(
+                    `https://workers-middleware.akramansari1433.workers.dev/createEndpoint/${customerId}`,
+                    {
+                        method: "POST",
+                        body: JSON.stringify(data),
+                    }
+                ).then((res) => res.json());
+
+            if (response.customerData) {
+                const updatedCustomers = customers.map((customer) => {
+                    if (
+                        customer.customerId === response.customerData.customerId
+                    ) {
+                        return response.customerData;
+                    }
+                    return customer;
+                });
+                setCustomers(updatedCustomers);
+                reset();
+                setShowCreateEndpoitModal(false);
+                alert(response.message);
+            }
+        } catch (error) {
+            console.log("Error: ", error);
+        }
+    };
     return (
         <>
             <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
@@ -30,32 +98,131 @@ export default function CreateEndpointModal({
                             </button>
                         </div>
                         {/*body*/}
-                        <div className="relative p-1 md:p-6 flex-auto w-96">
-                            <div className="my-2 flex justify-between">
-                                <label htmlFor="endpoint" className="text-xl">
-                                    Endpoint
-                                </label>
-                                <input
-                                    id="endpoint"
-                                    className="ml-3 p-1 rounded-md border-2 border-accent bg-secondary"
-                                />
+                        <div className="relative p-1 md:p-3 flex-auto w-auto">
+                            <div className="flex justify-between">
+                                <form
+                                    onSubmit={handleSubmit(submitHandler)}
+                                    className="my-1 w-auto md:w-96"
+                                >
+                                    <div className="w-full my-1">
+                                        <div>
+                                            <div className="my-2 w-full flex justify-between">
+                                                <label
+                                                    htmlFor="endpoint"
+                                                    className="text-md"
+                                                >
+                                                    Endpoint
+                                                </label>
+                                                <input
+                                                    {...register("endpoint")}
+                                                    className="ml-3 p-1 rounded-md border-2 border-accent bg-secondary"
+                                                />
+                                            </div>
+
+                                            <div className="my-2 w-full overflow-auto">
+                                                <div className="flex justify-between">
+                                                    <h1 className="text-md font-semibold">
+                                                        Headers
+                                                    </h1>
+                                                    <button
+                                                        type="button"
+                                                        onClick={() =>
+                                                            addNewHeader()
+                                                        }
+                                                    >
+                                                        <PlusCircleIcon className="h-5 w-5 text-accent" />
+                                                    </button>
+                                                </div>
+
+                                                {watch("headers").map(
+                                                    (header, i) => (
+                                                        <div
+                                                            key={i}
+                                                            className="flex flex-row"
+                                                        >
+                                                            <input
+                                                                className="my-1 mr-1 p-1 rounded-md border-2 border-accent bg-secondary"
+                                                                {...register(
+                                                                    `headers.${i}.key`
+                                                                )}
+                                                                placeholder="key"
+                                                            />
+                                                            <input
+                                                                className="my-1 p-1 rounded-md border-2 border-accent bg-secondary"
+                                                                {...register(
+                                                                    `headers.${i}.value`
+                                                                )}
+                                                                placeholder="value"
+                                                            />
+                                                        </div>
+                                                    )
+                                                )}
+                                            </div>
+
+                                            <div className="my-1">
+                                                <h1 className="text-md font-semibold">
+                                                    Retry Config
+                                                </h1>
+                                                <div className="m-1 flex justify-between items-center min-w-full">
+                                                    <label
+                                                        htmlFor="numberOfRetries"
+                                                        className="text-md"
+                                                    >
+                                                        Number of reties:
+                                                    </label>
+                                                    <input
+                                                        {...register(
+                                                            "retryConfig.numberOfRetries"
+                                                        )}
+                                                        type="number"
+                                                        className="p-1 rounded-md border-2 border-accent bg-secondary"
+                                                    />
+                                                </div>
+                                                <div className="m-1 flex justify-between items-center min-w-full">
+                                                    <label
+                                                        htmlFor="retryInterval"
+                                                        className="text-md"
+                                                    >
+                                                        Retry Interval (sec):
+                                                    </label>
+
+                                                    <input
+                                                        {...register(
+                                                            "retryConfig.retryInterval"
+                                                        )}
+                                                        type="number"
+                                                        className="p-1 rounded-md border-2 border-accent bg-secondary"
+                                                    />
+                                                </div>
+                                                <div className="m-1 flex justify-between items-center min-w-full">
+                                                    <label
+                                                        htmlFor="timeout"
+                                                        className="text-md"
+                                                    >
+                                                        Timeout (sec):{" "}
+                                                    </label>
+
+                                                    <input
+                                                        {...register(
+                                                            `retryConfig.timeout`
+                                                        )}
+                                                        type="number"
+                                                        className="p-1 rounded-md border-2 border-accent bg-secondary"
+                                                    />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className="my-5 w-80 flex justify-center">
+                                        <button
+                                            type="submit"
+                                            className="bg-accent px-3 py-1 rounded-md"
+                                        >
+                                            Submit
+                                        </button>
+                                    </div>
+                                </form>
                             </div>
-                        </div>
-                        {/*footer*/}
-                        <div className="flex items-center justify-end p-3 border-t border-solid border-slate-200 rounded-b">
-                            <button
-                                className="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
-                                type="button"
-                                onClick={() => setShowCreateEndpoitModal(false)}
-                            >
-                                Close
-                            </button>
-                            <button
-                                className="bg-accent hover:bg-accent-secondary font-bold uppercase text-sm px-3 py-2 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
-                                type="button"
-                            >
-                                Save
-                            </button>
                         </div>
                     </div>
                 </div>
