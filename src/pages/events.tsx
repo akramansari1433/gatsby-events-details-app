@@ -13,11 +13,21 @@ export type EventType = {
     tries?: number;
 };
 
+export interface ISelectedRequest {
+    customerId: string;
+    eventId: string;
+    requests?: RequestType[];
+}
+  
+
 export default function EventList() {
     const [eventsList, setEventsList] = useState<EventType[]>([]);
     const [expandedRows, setExpandedRows] = useState<any[]>([]);
     const [expandState, setExpandState] = useState<any>({});
     const [loading, setLoading] = useState<boolean>(false);
+    const [selectRequests, setSelectRequests] = useState<ISelectedRequest | null>(null);
+
+    const [socket, setSocket] = useState<WebSocket | null>(null);
 
     const handleExpandRow = (eventId: string) => {
         const currentExpandedRows = expandedRows;
@@ -50,8 +60,46 @@ export default function EventList() {
         }
     };
 
+    const handleSendMessage = () => {
+        socket?.send(JSON.stringify(selectRequests));
+        setSelectRequests(null);
+    };
+
     useEffect(() => {
         getEvents();
+        const newSocket = new WebSocket('wss://workers-middleware.akramansari1433.workers.dev/ws/request/resendbulk');
+
+        newSocket.onopen = () => {
+            console.log('WebSocket connection opened');
+        };
+
+        newSocket.onmessage = (event) => {
+            // Write a funtion to handle the buffer and update all the requests coming in from the socket, below code won't work 100%
+            // if(event.data) {
+            //     const data = JSON.parse(event.data)
+            //     const tempEventList = eventsList
+            //     if("requestId" in data) {
+            //         tempEventList.forEach(event => {
+            //             if(event.eventId === data.requestId) {
+            //                 event.requests.push(data)
+            //             }
+            //         })
+            //     }
+            //     console.log(tempEventList);
+            //     setEventsList(tempEventList)
+            // }
+            console.log(JSON.parse(event.data))
+        };
+
+        newSocket.onclose = () => {
+            console.log('WebSocket connection closed');
+        };
+
+        setSocket(newSocket);
+
+        return () => {
+            newSocket.close();
+        };
     }, []);
 
     return (
@@ -100,11 +148,7 @@ export default function EventList() {
                                     {eventsList?.map((event, i) => (
                                         <React.Fragment key={i}>
                                             <tr
-                                                onClick={() =>
-                                                    handleExpandRow(
-                                                        event.eventId
-                                                    )
-                                                }
+                                                onClick={() => handleExpandRow(event.eventId)}
                                                 className="cursor-pointer"
                                             >
                                                 <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium sm:pl-6">
@@ -145,9 +189,10 @@ export default function EventList() {
                                                         <td colSpan={12}>
                                                             <div className="flex justify-center my-3 shadow">
                                                                 <RequestsTable
-                                                                    event={
-                                                                        event
-                                                                    }
+                                                                    event={event}
+                                                                    selectRequests={selectRequests}
+                                                                    setSelectRequests={setSelectRequests}
+                                                                    handleSendMessage={handleSendMessage}
                                                                 />
                                                             </div>
                                                         </td>

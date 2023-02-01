@@ -1,25 +1,40 @@
-import React from "react";
+import React, { useState } from "react";
 import { dateTimeFormatter } from "../utils/helper";
-import { EventType } from "../pages/events";
+import { EventType, ISelectedRequest } from "../pages/events";
 import { RequestType } from "../pages/events/[eventId]/[requestId]";
 
 type PropType = {
     event: EventType;
+    selectRequests: ISelectedRequest | null,
+    setSelectRequests: (request: ISelectedRequest) => void,
+    handleSendMessage: () => void
 };
 
-export default function RequestsTable({ event }: PropType) {
-    const [requests, setRequests] = React.useState<RequestType[]>([]);
+export default function RequestsTable({ event, selectRequests, setSelectRequests, handleSendMessage }: PropType) {
 
     const handleCheck = (
         e: React.ChangeEvent<HTMLInputElement>,
         request: RequestType
     ) => {
         if (e.target.checked) {
-            setRequests([...requests, request]);
-        } else if (e.target.checked === false) {
-            setRequests(
-                requests.filter((r) => r.requestId !== request.requestId)
-            );
+            if(selectRequests) {
+                const updatedRequestList = selectRequests;
+                updatedRequestList.requests?.push(request)
+                setSelectRequests(updatedRequestList)
+            } else {
+                const data: ISelectedRequest = {
+                    customerId: event.customerId,
+                    eventId: event.eventId,
+                    requests: [request]
+                }
+                setSelectRequests(data)
+            }
+        } else {
+            if(selectRequests) {
+                const updatedRequestList = selectRequests;
+                updatedRequestList.requests?.filter((req) => req.requestId !== req.requestId)
+                setSelectRequests(updatedRequestList)
+            } 
         }
     };
 
@@ -96,7 +111,7 @@ export default function RequestsTable({ event }: PropType) {
             </table>
             {/* Todo resend bulk requests */}
             <div className="flex justify-center my-3">
-                <button className="rounded-md border bg-accent py-2 px-4 text-sm font-medium text-main-text hover:bg-accent-secondary focus:outline-none">
+                <button onClick={() => handleSendMessage()} className="rounded-md border bg-accent py-2 px-4 text-sm font-medium text-main-text hover:bg-accent-secondary focus:outline-none">
                     Resend Requests
                 </button>
             </div>
