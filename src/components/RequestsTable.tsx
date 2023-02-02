@@ -5,36 +5,42 @@ import { RequestType } from "../pages/events/[eventId]/[requestId]";
 
 type PropType = {
     event: EventType;
-    selectRequests: ISelectedRequest | null,
-    setSelectRequests: (request: ISelectedRequest) => void,
-    handleSendMessage: () => void
+    selectedRequests: ISelectedRequest | null;
+    setSelectedRequests: (request: ISelectedRequest) => void;
+    handleSendMessage: () => void;
 };
 
-export default function RequestsTable({ event, selectRequests, setSelectRequests, handleSendMessage }: PropType) {
-
+export default function RequestsTable({
+    event,
+    selectedRequests,
+    setSelectedRequests,
+    handleSendMessage,
+}: PropType) {
     const handleCheck = (
         e: React.ChangeEvent<HTMLInputElement>,
         request: RequestType
     ) => {
         if (e.target.checked) {
-            if(selectRequests) {
-                const updatedRequestList = selectRequests;
-                updatedRequestList.requests?.push(request)
-                setSelectRequests(updatedRequestList)
+            if (selectedRequests) {
+                const updatedRequestList = selectedRequests;
+                updatedRequestList.requests?.push(request);
+                setSelectedRequests(updatedRequestList);
             } else {
                 const data: ISelectedRequest = {
                     customerId: event.customerId,
                     eventId: event.eventId,
-                    requests: [request]
-                }
-                setSelectRequests(data)
+                    requests: [request],
+                };
+                setSelectedRequests(data);
             }
         } else {
-            if(selectRequests) {
-                const updatedRequestList = selectRequests;
-                updatedRequestList.requests?.filter((req) => req.requestId !== req.requestId)
-                setSelectRequests(updatedRequestList)
-            } 
+            if (selectedRequests) {
+                const updatedRequestList = selectedRequests;
+                updatedRequestList.requests?.filter(
+                    (req) => req.requestId !== req.requestId
+                );
+                setSelectedRequests(updatedRequestList);
+            }
         }
     };
 
@@ -111,7 +117,10 @@ export default function RequestsTable({ event, selectRequests, setSelectRequests
             </table>
             {/* Todo resend bulk requests */}
             <div className="flex justify-center my-3">
-                <button onClick={() => handleSendMessage()} className="rounded-md border bg-accent py-2 px-4 text-sm font-medium text-main-text hover:bg-accent-secondary focus:outline-none">
+                <button
+                    onClick={() => handleSendMessage()}
+                    className="rounded-md border bg-accent py-2 px-4 text-sm font-medium text-main-text hover:bg-accent-secondary focus:outline-none"
+                >
                     Resend Requests
                 </button>
             </div>

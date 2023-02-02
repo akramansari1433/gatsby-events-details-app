@@ -18,14 +18,15 @@ export interface ISelectedRequest {
     eventId: string;
     requests?: RequestType[];
 }
-  
 
 export default function EventList() {
     const [eventsList, setEventsList] = useState<EventType[]>([]);
     const [expandedRows, setExpandedRows] = useState<any[]>([]);
     const [expandState, setExpandState] = useState<any>({});
     const [loading, setLoading] = useState<boolean>(false);
-    const [selectRequests, setSelectRequests] = useState<ISelectedRequest | null>(null);
+    const [selectedRequests, setSelectedRequests] =
+        useState<ISelectedRequest | null>(null);
+    const [requestResponse, setRequestResponse] = useState<RequestType[]>([]);
 
     const [socket, setSocket] = useState<WebSocket | null>(null);
 
@@ -61,38 +62,32 @@ export default function EventList() {
     };
 
     const handleSendMessage = () => {
-        socket?.send(JSON.stringify(selectRequests));
-        setSelectRequests(null);
+        socket?.send(JSON.stringify(selectedRequests));
+        setSelectedRequests(null);
     };
 
     useEffect(() => {
         getEvents();
-        const newSocket = new WebSocket('wss://workers-middleware.akramansari1433.workers.dev/ws/request/resendbulk');
+        const newSocket = new WebSocket(
+            "wss://workers-middleware.akramansari1433.workers.dev/ws/request/resendbulk"
+        );
 
         newSocket.onopen = () => {
-            console.log('WebSocket connection opened');
+            console.log("WebSocket connection opened");
         };
 
         newSocket.onmessage = (event) => {
-            // Write a funtion to handle the buffer and update all the requests coming in from the socket, below code won't work 100%
-            // if(event.data) {
-            //     const data = JSON.parse(event.data)
-            //     const tempEventList = eventsList
-            //     if("requestId" in data) {
-            //         tempEventList.forEach(event => {
-            //             if(event.eventId === data.requestId) {
-            //                 event.requests.push(data)
-            //             }
-            //         })
-            //     }
-            //     console.log(tempEventList);
-            //     setEventsList(tempEventList)
-            // }
-            console.log(JSON.parse(event.data))
+            if (event.data) {
+                const data = JSON.parse(event.data);
+
+                if ("requestId" in data) {
+                    setRequestResponse((prev) => [...prev, data]);
+                }
+            }
         };
 
         newSocket.onclose = () => {
-            console.log('WebSocket connection closed');
+            console.log("WebSocket connection closed");
         };
 
         setSocket(newSocket);
@@ -101,6 +96,35 @@ export default function EventList() {
             newSocket.close();
         };
     }, []);
+
+    const containsObject = (obj: RequestType, list: RequestType[]) => {
+        var i;
+        for (i = 0; i < list.length; i++) {
+            if (list[i] === obj) {
+                return true;
+            }
+        }
+
+        return false;
+    };
+
+    useEffect(() => {
+        setEventsList((prev) => {
+            return prev.map((singleEvent) => {
+                if (requestResponse) {
+                    requestResponse.map((req, i) => {
+                        if (singleEvent.eventId == req.eventId) {
+                            if (!containsObject(req, singleEvent.requests)) {
+                                singleEvent.requests.push(req);
+                            }
+                        }
+                    });
+                    return singleEvent;
+                }
+                return singleEvent;
+            });
+        });
+    }, [requestResponse]);
 
     return (
         <>
@@ -148,7 +172,11 @@ export default function EventList() {
                                     {eventsList?.map((event, i) => (
                                         <React.Fragment key={i}>
                                             <tr
-                                                onClick={() => handleExpandRow(event.eventId)}
+                                                onClick={() =>
+                                                    handleExpandRow(
+                                                        event.eventId
+                                                    )
+                                                }
                                                 className="cursor-pointer"
                                             >
                                                 <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium sm:pl-6">
@@ -189,10 +217,18 @@ export default function EventList() {
                                                         <td colSpan={12}>
                                                             <div className="flex justify-center my-3 shadow">
                                                                 <RequestsTable
-                                                                    event={event}
-                                                                    selectRequests={selectRequests}
-                                                                    setSelectRequests={setSelectRequests}
-                                                                    handleSendMessage={handleSendMessage}
+                                                                    event={
+                                                                        event
+                                                                    }
+                                                                    selectedRequests={
+                                                                        selectedRequests
+                                                                    }
+                                                                    setSelectedRequests={
+                                                                        setSelectedRequests
+                                                                    }
+                                                                    handleSendMessage={
+                                                                        handleSendMessage
+                                                                    }
                                                                 />
                                                             </div>
                                                         </td>
