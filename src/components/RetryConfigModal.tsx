@@ -37,7 +37,7 @@ export default function RetryConfigModal({
         try {
             const response: { data: CustomerType; message: string } =
                 await fetch(
-                    `https://workers-middleware.akramansari1433.workers.dev/retryconfig/${customerId}/${endpoint.endpointId}`,
+                    `https://workers-middleware.touchless.workers.dev/retryconfig/${customerId}/${endpoint.endpointId}`,
                     {
                         method: "POST",
                         body: JSON.stringify({ retryConfig }),

@@ -72,7 +72,7 @@ export default function AddCustomer() {
         try {
             const response: { customerData: CustomerType; message: string } =
                 await fetch(
-                    `https://workers-middleware.akramansari1433.workers.dev/createCustomer`,
+                    `https://workers-middleware.touchless.workers.dev/createCustomer`,
                     {
                         method: "POST",
                         body: JSON.stringify(data),

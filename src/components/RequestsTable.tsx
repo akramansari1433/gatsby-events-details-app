@@ -93,6 +93,7 @@ export default function RequestsTable({
                             <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium sm:pl-6">
                                 <input
                                     type="checkbox"
+                                    className="cursor-pointer"
                                     onChange={(e) => handleCheck(e, req)}
                                 />
                             </td>

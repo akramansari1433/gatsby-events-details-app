@@ -47,7 +47,7 @@ export default function EventList() {
         try {
             setLoading(true);
             const res: any = await fetch(
-                "https://workers-middleware.akramansari1433.workers.dev/events"
+                "https://workers-middleware.touchless.workers.dev/events"
             ).then((response) => response.json());
 
             if (!res.error) {
@@ -69,7 +69,7 @@ export default function EventList() {
     useEffect(() => {
         getEvents();
         const newSocket = new WebSocket(
-            "wss://workers-middleware.akramansari1433.workers.dev/ws/request/resendbulk"
+            "wss://workers-middleware.touchless.workers.dev/ws/request/resendbulk"
         );
 
         newSocket.onopen = () => {
@@ -109,9 +109,9 @@ export default function EventList() {
     };
 
     useEffect(() => {
-        setEventsList((prev) => {
-            return prev.map((singleEvent) => {
-                if (requestResponse) {
+        if (requestResponse.length) {
+            setEventsList((prev) => {
+                return prev.map((singleEvent) => {
                     requestResponse.map((req, i) => {
                         if (singleEvent.eventId == req.eventId) {
                             if (!containsObject(req, singleEvent.requests)) {
@@ -120,10 +120,10 @@ export default function EventList() {
                         }
                     });
                     return singleEvent;
-                }
-                return singleEvent;
+                    // return singleEvent;
+                });
             });
-        });
+        }
     }, [requestResponse]);
 
     return (

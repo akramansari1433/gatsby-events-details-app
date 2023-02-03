@@ -34,7 +34,7 @@ export default function EventDetails(props: any) {
     const getEvents = async () => {
         try {
             const res: RequestType = await fetch(
-                `https://workers-middleware.akramansari1433.workers.dev/events/${props.params.eventId}/${props.params.requestId}`
+                `https://workers-middleware.touchless.workers.dev/events/${props.params.eventId}/${props.params.requestId}`
             ).then((response) => response.json());
             const data = await res;
             setRequestDetail(data);
@@ -51,7 +51,7 @@ export default function EventDetails(props: any) {
             customHeader: includeCustomerHeaders,
         };
         const res: any = await fetch(
-            `https://workers-middleware.akramansari1433.workers.dev/request/resend/${customerId}/${endpointId}`,
+            `https://workers-middleware.touchless.workers.dev/request/resend/${customerId}/${endpointId}`,
             {
                 method: "POST",
                 body: JSON.stringify(payload),

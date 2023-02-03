@@ -20,7 +20,7 @@ export default function InvocationLog() {
         try {
             setLoading(true);
             const res: any = await fetch(
-                "https://workers-middleware.akramansari1433.workers.dev/events"
+                "https://workers-middleware.touchless.workers.dev/events"
             ).then((response) => response.json());
             const data = await res;
 

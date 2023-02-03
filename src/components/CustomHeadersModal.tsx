@@ -42,7 +42,7 @@ export default function CustomHeadersModal({
         try {
             const response: { data: CustomerType; message: string } =
                 await fetch(
-                    `https://workers-middleware.akramansari1433.workers.dev/headers/${customerId}/${endpoint.endpointId}`,
+                    `https://workers-middleware.touchless.workers.dev/headers/${customerId}/${endpoint.endpointId}`,
                     {
                         method: "POST",
                         body: JSON.stringify({

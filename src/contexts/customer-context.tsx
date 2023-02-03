@@ -32,7 +32,7 @@ export const CustomerProvider = ({ children }: { children: ReactElement }) => {
     const getCustomers = async () => {
         try {
             const response: CustomerType[] = await fetch(
-                "https://workers-middleware.akramansari1433.workers.dev/customers"
+                "https://workers-middleware.touchless.workers.dev/customers"
             ).then((res) => res.json());
             if (response) setCustomers(response);
         } catch (error) {

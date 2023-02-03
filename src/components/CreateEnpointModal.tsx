@@ -52,7 +52,7 @@ export default function CreateEndpointModal({
         try {
             const response: { customerData: CustomerType; message: string } =
                 await fetch(
-                    `https://workers-middleware.akramansari1433.workers.dev/createEndpoint/${customerId}`,
+                    `https://workers-middleware.touchless.workers.dev/createEndpoint/${customerId}`,
                     {
                         method: "POST",
                         body: JSON.stringify(data),
