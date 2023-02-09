@@ -33,12 +33,13 @@ export default function RequestsTable({
                 };
                 setSelectedRequests(data);
             }
-        } else {
+        } else if (e.target.checked === false) {
             if (selectedRequests) {
                 const updatedRequestList = selectedRequests;
-                updatedRequestList.requests?.filter(
-                    (req) => req.requestId !== req.requestId
-                );
+                updatedRequestList.requests =
+                    updatedRequestList.requests?.filter(
+                        (req) => req.requestId !== request.requestId
+                    );
                 setSelectedRequests(updatedRequestList);
             }
         }

@@ -4,6 +4,7 @@ import { ChevronDownIcon, ChevronUpIcon } from "@heroicons/react/24/outline";
 import EventsSkeleton from "../utils/EventsSkeleton";
 import { dateTimeFormatter } from "../utils/helper";
 import RequestsTable from "../components/RequestsTable";
+import { useQuery } from "@tanstack/react-query";
 
 export type EventType = {
     eventId: string;
@@ -23,12 +24,12 @@ export default function EventList() {
     const [eventsList, setEventsList] = useState<EventType[]>([]);
     const [expandedRows, setExpandedRows] = useState<any[]>([]);
     const [expandState, setExpandState] = useState<any>({});
-    const [loading, setLoading] = useState<boolean>(false);
+    // const [loading, setLoading] = useState<boolean>(false);
     const [selectedRequests, setSelectedRequests] =
         useState<ISelectedRequest | null>(null);
-    const [requestResponse, setRequestResponse] = useState<RequestType[]>([]);
+    // const [requestResponse, setRequestResponse] = useState<RequestType[]>([]);
 
-    const [socket, setSocket] = useState<WebSocket | null>(null);
+    // const [socket, setSocket] = useState<WebSocket | null>(null);
 
     const handleExpandRow = (eventId: string) => {
         const currentExpandedRows = expandedRows;
@@ -43,88 +44,109 @@ export default function EventList() {
         setExpandedRows(newExpandedRows);
     };
 
-    const getEvents = async () => {
-        try {
-            setLoading(true);
-            const res: any = await fetch(
-                "https://workers-middleware.touchless.workers.dev/events"
-            ).then((response) => response.json());
+    // const getEvents = async () => {
+    //     try {
+    //         setLoading(true);
+    //         const res: any = await fetch(
+    //             "https://workers-middleware.touchless.workers.dev/events"
+    //         ).then((response) => response.json());
 
-            if (!res.error) {
-                setLoading(false);
-                setEventsList(res);
-            }
-            setLoading(false);
-        } catch (error) {
-            setLoading(false);
-            console.log(error);
+    //         if (!res.error) {
+    //             setLoading(false);
+    //             setEventsList(res);
+    //         }
+    //         setLoading(false);
+    //     } catch (error) {
+    //         setLoading(false);
+    //         console.log(error);
+    //     }
+    // };
+
+    const { data, status, isLoading } = useQuery(
+        ["response"],
+        async (): Promise<EventType[]> => {
+            return await (
+                await fetch(
+                    "https://workers-middleware.touchless.workers.dev/events"
+                )
+            ).json();
         }
-    };
+    );
 
-    const handleSendMessage = () => {
-        socket?.send(JSON.stringify(selectedRequests));
-        setSelectedRequests(null);
-    };
-
-    useEffect(() => {
-        getEvents();
-        const newSocket = new WebSocket(
-            "wss://workers-middleware.touchless.workers.dev/ws/request/resendbulk"
+    const handleSendBulkRequests = async () => {
+        const response = await fetch(
+            "https://workers-middleware.touchless.workers.dev/request/resendbulk",
+            { method: "POST", body: JSON.stringify(selectedRequests) }
         );
-
-        newSocket.onopen = () => {
-            console.log("WebSocket connection opened");
-        };
-
-        newSocket.onmessage = (event) => {
-            if (event.data) {
-                const data = JSON.parse(event.data);
-
-                if ("requestId" in data) {
-                    setRequestResponse((prev) => [...prev, data]);
-                }
-            }
-        };
-
-        newSocket.onclose = () => {
-            console.log("WebSocket connection closed");
-        };
-
-        setSocket(newSocket);
-
-        return () => {
-            newSocket.close();
-        };
-    }, []);
-
-    const containsObject = (obj: RequestType, list: RequestType[]) => {
-        var i;
-        for (i = 0; i < list.length; i++) {
-            if (list[i] === obj) {
-                return true;
-            }
+        if (response.ok) {
+            console.log(await response.json());
         }
-
-        return false;
     };
-
     useEffect(() => {
-        if (requestResponse.length) {
-            setEventsList((prev) => {
-                return prev.map((singleEvent) => {
-                    requestResponse.map((req, i) => {
-                        if (singleEvent.eventId == req.eventId) {
-                            if (!containsObject(req, singleEvent.requests)) {
-                                singleEvent.requests.push(req);
-                            }
-                        }
-                    });
-                    return singleEvent;
-                    // return singleEvent;
-                });
-            });
+        if (status === "success") {
+            setEventsList(data);
         }
-    }, [requestResponse]);
+    }, [status, data]);
+
+    // useEffect(() => {
+    //     getEvents();
+    //     // const newSocket = new WebSocket(
+    //     //     "wss://workers-middleware.touchless.workers.dev/ws/request/resendbulk"
+    //     // );
+
+    //     // newSocket.onopen = () => {
+    //     //     console.log("WebSocket connection opened");
+    //     // };
+
+    //     // newSocket.onmessage = (event) => {
+    //     //     if (event.data) {
+    //     //         const data = JSON.parse(event.data);
+
+    //     //         if ("requestId" in data) {
+    //     //             setRequestResponse((prev) => [...prev, data]);
+    //     //         }
+    //     //     }
+    //     // };
+
+    //     // newSocket.onclose = () => {
+    //     //     console.log("WebSocket connection closed");
+    //     // };
+
+    //     // setSocket(newSocket);
+
+    //     // return () => {
+    //     //     newSocket.close();
+    //     // };
+    // }, []);
+
+    // const containsObject = (obj: RequestType, list: RequestType[]) => {
+    //     var i;
+    //     for (i = 0; i < list.length; i++) {
+    //         if (list[i] === obj) {
+    //             return true;
+    //         }
+    //     }
+
+    //     return false;
+    // };
+
+    // useEffect(() => {
+    //     if (requestResponse.length) {
+    //         setEventsList((prev) => {
+    //             return prev.map((singleEvent) => {
+    //                 requestResponse.map((req, i) => {
+    //                     if (singleEvent.eventId == req.eventId) {
+    //                         if (!containsObject(req, singleEvent.requests)) {
+    //                             singleEvent.requests.push(req);
+    //                         }
+    //                     }
+    //                 });
+    //                 return singleEvent;
+    //                 // return singleEvent;
+    //             });
+    //         });
+    //     }
+    // }, [requestResponse]);
 
     return (
         <>
@@ -132,7 +154,7 @@ export default function EventList() {
                 <h1 className="font-semibold text-xl text-center">
                     Events List
                 </h1>
-                {loading ? (
+                {isLoading ? (
                     <EventsSkeleton />
                 ) : (
                     <div className="mt-2 flex flex-col">
@@ -227,7 +249,7 @@ export default function EventList() {
                                                                         setSelectedRequests
                                                                     }
                                                                     handleSendMessage={
-                                                                        handleSendMessage
+                                                                        handleSendBulkRequests
                                                                     }
                                                                 />
                                                             </div>
