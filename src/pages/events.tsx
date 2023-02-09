@@ -70,6 +70,9 @@ export default function EventList() {
                     "https://workers-middleware.touchless.workers.dev/events"
                 )
             ).json();
+        },
+        {
+            refetchInterval: 10000,
         }
     );
 
