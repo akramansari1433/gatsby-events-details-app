@@ -121,8 +121,7 @@ export default function RequestsTable({
             <div className="flex justify-center my-3">
                 <button
                     onClick={() => handleSendMessage()}
-                    disabled={!selectedRequests}
-                    className="disabled:opacity-75 disabled:cursor-not-allowed rounded-md border bg-accent py-2 px-4 text-sm font-medium text-main-text hover:bg-accent-secondary focus:outline-none"
+                    className='rounded-md border bg-accent py-2 px-4 text-sm font-medium text-main-text hover:bg-accent-secondary focus:outline-none'
                 >
                     Resend Requests
                 </button>
