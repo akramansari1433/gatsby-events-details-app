@@ -25,9 +25,10 @@ export interface ISelectedRequest {
 }
 
 export default function EventList() {
-    const [eventsList, setEventsList] = useState<EventType[]>([]);
+    const [eventsList, setEventsList] = useState<EventType[] | undefined>([]);
     const [expandedRows, setExpandedRows] = useState<any[]>([]);
     const [expandState, setExpandState] = useState<any>({});
+    let timeoutId: any;
     // const [loading, setLoading] = useState<boolean>(false);
     const [selectedRequests, setSelectedRequests] = useState<ISelectedRequest | null>(null);
     // const [requestResponse, setRequestResponse] = useState<RequestType[]>([]);
@@ -88,6 +89,20 @@ export default function EventList() {
             console.log(await response.json());
             setSelectedRequests(null);
         }
+    };
+
+    const handleRefetch = () => {
+        clearTimeout(timeoutId);
+    
+        timeoutId = setTimeout(() => {
+            try {
+                refetch().then(({ data }) => {
+                    setEventsList(data);
+                });
+            } catch (error) {
+                console.log("Error: ", error);
+            }
+        }, 1000);
     };
 
     useEffect(() => {
@@ -169,7 +184,7 @@ export default function EventList() {
                         <div className="absolute right-0 top-0 mr-2">
                             <button
                                 className="inline-flex space-x-2 text-accent items-center font-semibold tex-sm"
-                                onClick={() => refetch()}
+                                onClick={() => handleRefetch()}
                             >
                                 <ArrowPathIcon className="h-5 w-5" />
                                 <span>Refetch</span>
