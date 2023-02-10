@@ -78,7 +78,7 @@ export default function EventList() {
     );
 
     const handleSendBulkRequests = async () => {
-        if(!selectedRequests) {
+        if(!selectedRequests?.requests?.length) {
             return
         }
         const response = await fetch(
