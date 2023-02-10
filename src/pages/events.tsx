@@ -1,6 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { RequestType } from "./events/[eventId]/[requestId]";
-import { ChevronDownIcon, ChevronUpIcon } from "@heroicons/react/24/outline";
+import {
+    ArrowPathIcon,
+    ChevronDownIcon,
+    ChevronUpIcon,
+} from "@heroicons/react/24/outline";
 import EventsSkeleton from "../utils/EventsSkeleton";
 import { dateTimeFormatter } from "../utils/helper";
 import RequestsTable from "../components/RequestsTable";
@@ -62,7 +66,7 @@ export default function EventList() {
     //     }
     // };
 
-    const { data, status, isLoading } = useQuery(
+    const { data, status, isLoading, refetch } = useQuery(
         ["response"],
         async (): Promise<EventType[]> => {
             return await (
@@ -70,9 +74,6 @@ export default function EventList() {
                     "https://workers-middleware.touchless.workers.dev/events"
                 )
             ).json();
-        },
-        {
-            refetchInterval: 10000,
         }
     );
 
@@ -83,6 +84,7 @@ export default function EventList() {
         );
         if (response.ok) {
             console.log(await response.json());
+            setSelectedRequests(null);
         }
     };
     useEffect(() => {
@@ -153,119 +155,130 @@ export default function EventList() {
 
     return (
         <>
-            <div className="mt-3">
+            <div className="relative mt-3">
                 <h1 className="font-semibold text-xl text-center">
                     Events List
                 </h1>
                 {isLoading ? (
                     <EventsSkeleton />
                 ) : (
-                    <div className="mt-2 flex flex-col">
-                        <div className="overflow overflow-x-auto shadow md:rounded-lg text-main-text">
-                            <table className="min-w-full">
-                                <thead className="bg-accent">
-                                    <tr>
-                                        <th
-                                            scope="col"
-                                            className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold sm:pl-6"
-                                        >
-                                            Customer Id
-                                        </th>
-                                        <th
-                                            scope="col"
-                                            className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold sm:pl-6"
-                                        >
-                                            Event Id
-                                        </th>
-                                        <th
-                                            scope="col"
-                                            className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold sm:pl-6"
-                                        >
-                                            Updated At
-                                        </th>
-                                        <th
-                                            scope="col"
-                                            className="relative py-3.5 pl-3 pr-4 sm:pr-6"
-                                        >
-                                            <span className="sr-only">
-                                                View Details
-                                            </span>
-                                        </th>
-                                    </tr>
-                                </thead>
-                                <tbody className="divide-y divide-gray-200 bg-secondary">
-                                    {eventsList?.map((event, i) => (
-                                        <React.Fragment key={i}>
-                                            <tr
-                                                onClick={() =>
-                                                    handleExpandRow(
-                                                        event.eventId
-                                                    )
-                                                }
-                                                className="cursor-pointer"
-                                            >
-                                                <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium sm:pl-6">
-                                                    {event.customerId}
-                                                </td>
-                                                <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium sm:pl-6">
-                                                    {event.eventId}
-                                                </td>
-                                                <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium sm:pl-6">
-                                                    {dateTimeFormatter(
-                                                        event.updatedAt
-                                                    )}
-                                                </td>
-                                                <td className=" flex flex-col whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
-                                                    <button
-                                                        key={event.eventId}
-                                                        onClick={(e) =>
-                                                            handleExpandRow(
-                                                                event.eventId
-                                                            )
-                                                        }
-                                                    >
-                                                        {expandState[
-                                                            event.eventId
-                                                        ] ? (
-                                                            <ChevronUpIcon className="text-accent h-5 w-5" />
-                                                        ) : (
-                                                            <ChevronDownIcon className="text-accent h-5 w-5" />
-                                                        )}
-                                                    </button>
-                                                </td>
-                                            </tr>
-                                            <>
-                                                {expandedRows.includes(
-                                                    event.eventId
-                                                ) ? (
-                                                    <tr>
-                                                        <td colSpan={12}>
-                                                            <div className="flex justify-center my-3 shadow">
-                                                                <RequestsTable
-                                                                    event={
-                                                                        event
-                                                                    }
-                                                                    selectedRequests={
-                                                                        selectedRequests
-                                                                    }
-                                                                    setSelectedRequests={
-                                                                        setSelectedRequests
-                                                                    }
-                                                                    handleSendMessage={
-                                                                        handleSendBulkRequests
-                                                                    }
-                                                                />
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-                                                ) : null}
-                                            </>
-                                        </React.Fragment>
-                                    ))}
-                                </tbody>
-                            </table>
+                    <>
+                        <div className="absolute right-0 top-0 mr-2">
+                            <button
+                                className="inline-flex space-x-2 text-accent items-center font-semibold tex-sm"
+                                onClick={() => refetch()}
+                            >
+                                <ArrowPathIcon className="h-5 w-5" />
+                                <span>Refetch</span>
+                            </button>
                         </div>
-                    </div>
+                        <div className="mt-2 flex flex-col">
+                            <div className="overflow overflow-x-auto shadow md:rounded-lg text-main-text">
+                                <table className="min-w-full">
+                                    <thead className="bg-accent">
+                                        <tr>
+                                            <th
+                                                scope="col"
+                                                className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold sm:pl-6"
+                                            >
+                                                Customer Id
+                                            </th>
+                                            <th
+                                                scope="col"
+                                                className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold sm:pl-6"
+                                            >
+                                                Event Id
+                                            </th>
+                                            <th
+                                                scope="col"
+                                                className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold sm:pl-6"
+                                            >
+                                                Updated At
+                                            </th>
+                                            <th
+                                                scope="col"
+                                                className="relative py-3.5 pl-3 pr-4 sm:pr-6"
+                                            >
+                                                <span className="sr-only">
+                                                    View Details
+                                                </span>
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody className="divide-y divide-gray-200 bg-secondary">
+                                        {eventsList?.map((event, i) => (
+                                            <React.Fragment key={i}>
+                                                <tr
+                                                    onClick={() =>
+                                                        handleExpandRow(
+                                                            event.eventId
+                                                        )
+                                                    }
+                                                    className="cursor-pointer"
+                                                >
+                                                    <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium sm:pl-6">
+                                                        {event.customerId}
+                                                    </td>
+                                                    <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium sm:pl-6">
+                                                        {event.eventId}
+                                                    </td>
+                                                    <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium sm:pl-6">
+                                                        {dateTimeFormatter(
+                                                            event.updatedAt
+                                                        )}
+                                                    </td>
+                                                    <td className=" flex flex-col whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
+                                                        <button
+                                                            key={event.eventId}
+                                                            onClick={(e) =>
+                                                                handleExpandRow(
+                                                                    event.eventId
+                                                                )
+                                                            }
+                                                        >
+                                                            {expandState[
+                                                                event.eventId
+                                                            ] ? (
+                                                                <ChevronUpIcon className="text-accent h-5 w-5" />
+                                                            ) : (
+                                                                <ChevronDownIcon className="text-accent h-5 w-5" />
+                                                            )}
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                                <>
+                                                    {expandedRows.includes(
+                                                        event.eventId
+                                                    ) ? (
+                                                        <tr>
+                                                            <td colSpan={12}>
+                                                                <div className="flex justify-center my-3 shadow">
+                                                                    <RequestsTable
+                                                                        event={
+                                                                            event
+                                                                        }
+                                                                        selectedRequests={
+                                                                            selectedRequests
+                                                                        }
+                                                                        setSelectedRequests={
+                                                                            setSelectedRequests
+                                                                        }
+                                                                        handleSendMessage={
+                                                                            handleSendBulkRequests
+                                                                        }
+                                                                    />
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                    ) : null}
+                                                </>
+                                            </React.Fragment>
+                                        ))}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </>
                 )}
             </div>
         </>
