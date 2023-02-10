@@ -77,6 +77,9 @@ export default function EventList() {
     );
 
     const handleSendBulkRequests = async () => {
+        if(!selectedRequests) {
+            return
+        }
         const response = await fetch(
             "https://workers-middleware.touchless.workers.dev/request/resendbulk",
             { method: "POST", body: JSON.stringify(selectedRequests) }
