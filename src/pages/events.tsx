@@ -29,8 +29,7 @@ export default function EventList() {
     const [expandedRows, setExpandedRows] = useState<any[]>([]);
     const [expandState, setExpandState] = useState<any>({});
     // const [loading, setLoading] = useState<boolean>(false);
-    const [selectedRequests, setSelectedRequests] =
-        useState<ISelectedRequest | null>(null);
+    const [selectedRequests, setSelectedRequests] = useState<ISelectedRequest | null>(null);
     // const [requestResponse, setRequestResponse] = useState<RequestType[]>([]);
 
     // const [socket, setSocket] = useState<WebSocket | null>(null);
@@ -66,7 +65,7 @@ export default function EventList() {
     //     }
     // };
 
-    const { data, status, isLoading, refetch } = useQuery(
+    const { data, isLoading, isSuccess, refetch } = useQuery(
         ["response"],
         async (): Promise<EventType[]> => {
             return await (
@@ -87,11 +86,12 @@ export default function EventList() {
             setSelectedRequests(null);
         }
     };
+
     useEffect(() => {
-        if (status === "success") {
+        if(isSuccess) {
             setEventsList(data);
         }
-    }, [status, data]);
+    }, [isSuccess]);
 
     // useEffect(() => {
     //     getEvents();
