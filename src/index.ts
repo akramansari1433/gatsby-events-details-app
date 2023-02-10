@@ -5,6 +5,7 @@ addEventListener("fetch", (event: any) => {
 });
 
 async function handleEvent(event: any) {
+    console.log("Version 0.8")
     try {
         // Add logic to decide whether to serve an asset or run your original Worker code
         return await getAssetFromKV(event);
