@@ -120,6 +120,8 @@ export default function RequestsTable({
             {/* Todo resend bulk requests */}
             <div className="flex justify-center my-3">
                 <button
+                    name="Resend Request"
+                    aria-label="Resend Request"
                     onClick={() => handleSendMessage()}
                     className='rounded-md border bg-accent py-2 px-4 text-sm font-medium text-main-text hover:bg-accent-secondary focus:outline-none'
                 >

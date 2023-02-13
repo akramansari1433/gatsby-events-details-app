@@ -25,7 +25,7 @@ export interface ISelectedRequest {
 }
 
 export default function EventList() {
-    const [eventsList, setEventsList] = useState<EventType[] | undefined>([]);
+    // const [eventsList, setEventsList] = useState<EventType[] | undefined>([]);
     const [expandedRows, setExpandedRows] = useState<any[]>([]);
     const [expandState, setExpandState] = useState<any>({});
     let timeoutId: any;
@@ -96,20 +96,21 @@ export default function EventList() {
     
         timeoutId = setTimeout(() => {
             try {
-                refetch().then(({ data }) => {
-                    setEventsList(data);
-                });
+                refetch()
+                // refetch().then(({ data }) => {
+                //     setEventsList(data);
+                // });
             } catch (error) {
                 console.log("Error: ", error);
             }
         }, 1000);
     };
 
-    useEffect(() => {
-        if(isSuccess) {
-            setEventsList(data);
-        }
-    }, [isSuccess]);
+    // useEffect(() => {
+    //     if(isSuccess) {
+    //         setEventsList(data);
+    //     }
+    // }, [isSuccess]);
 
     // useEffect(() => {
     //     getEvents();
@@ -224,7 +225,7 @@ export default function EventList() {
                                         </tr>
                                     </thead>
                                     <tbody className="divide-y divide-gray-200 bg-secondary">
-                                        {eventsList?.map((event, i) => (
+                                        {data?.map((event, i) => (
                                             <React.Fragment key={i}>
                                                 <tr
                                                     onClick={() =>
