@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
+import { useQuery } from "@tanstack/react-query";
 import { RequestType } from "./events/[eventId]/[requestId]";
 import {
     ArrowPathIcon,
@@ -8,7 +9,6 @@ import {
 import EventsSkeleton from "../utils/EventsSkeleton";
 import { dateTimeFormatter } from "../utils/helper";
 import RequestsTable from "../components/RequestsTable";
-import { useQuery } from "@tanstack/react-query";
 
 export type EventType = {
     eventId: string;
@@ -97,9 +97,6 @@ export default function EventList() {
         timeoutId = setTimeout(() => {
             try {
                 refetch()
-                // refetch().then(({ data }) => {
-                //     setEventsList(data);
-                // });
             } catch (error) {
                 console.log("Error: ", error);
             }
